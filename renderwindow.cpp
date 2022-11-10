@@ -460,7 +460,7 @@ void RenderWindow::Tick(float deltaTime)
         AttemptedMovement += dir;
     }
 
-    mLight->orbit(deltaTime);
+    mLight->orbit(deltaTime * 3);
 
     float moveSpeed = deltaTime * 50;
     if (mCurrentInputs[Qt::Key_Shift]) moveSpeed *= 2;
