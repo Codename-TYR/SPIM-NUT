@@ -19,6 +19,7 @@ SOURCES += main.cpp \
     logger.cpp \
     mainwindow.cpp \
     nutobject.cpp \
+    nutvector3d.cpp \
     octahedronball.cpp \
     renderwindow.cpp \
     shader.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     logger.h \
     mainwindow.h \
     nutobject.h \
+    nutvector3d.h \
     objloader.h \
     octahedronball.h \
     renderwindow.h \
