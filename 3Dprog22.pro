@@ -29,6 +29,7 @@ SOURCES += main.cpp \
     trianglesurface.cpp \
     vertex.cpp \
     visualobject.cpp \
+    world.cpp \
     xyz.cpp
 
 HEADERS += \
@@ -48,6 +49,7 @@ HEADERS += \
     trianglesurface.h \
     vertex.h \
     visualobject.h \
+    world.h \
     xyz.h
 
 FORMS += \
