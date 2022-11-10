@@ -1,7 +1,7 @@
 # Fysikk og JavaScript
 ## Fysikk/Script interface
 ### Base Component
-```
+```cpp
 class BaseComponent
 {
 private:
@@ -12,7 +12,7 @@ public:
 };
 ```
 ### Fysikk Component
-```
+```cpp
 class PhysicsComponent : BaseComponent
 {
 public:
@@ -29,7 +29,7 @@ private:
 };
 ```
 ### Actor class
-```
+```cpp
 class Actor : VisualObject
 {
 private:
@@ -65,5 +65,33 @@ public:
 # Lyd
 ## Lyd-Komponent interface
 ```cpp
-class SoundComponent
+class Sound {
+public:
+    Sound(std::string filePath);
+    void Play();
+    void Pause();
+    void Stop();
+};
+
+class SoundComponent : BaseComponent
+{
+public:
+    void ComponentTick(float deltaTime, Actor* parentActor) override;
+    
+    // Den første viser implementasjon, men dette skal i en cpp fil, pause og stop skal være relativt like
+    void Play(std::string sound) {
+        if (mSounds[sound] == nullptr) return;
+        mSounds[sound]->Play();
+    }
+    void Pause(std::string sound);
+    void Stop(std::string sound);
+    
+    void Load(std::string filePath, std::string name) {
+        Sound* sound = new Sound(filePath);
+        mSounds[name] = sound;
+    }
+    
+private:
+    std::map<std::string, Sound*> mSounds;
+};
 ```
