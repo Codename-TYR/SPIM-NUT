@@ -1,5 +1,4 @@
-# Husk å putte .dll fila i build mappa! :D
-
+# Fysikk og JavaScript
 ## Fysikk/Script interface
 ### Base Component
 ```
@@ -7,6 +6,7 @@ class BaseComponent
 {
 private:
     bool mEnableTick{false};
+    QVector3D mLocalOffset;
 public:
     virtual void ComponentTick(float deltaTime, Actor* parentActor)=0;
 };
@@ -60,4 +60,10 @@ public:
     QVector3D GetRotation();
     
 };
+```
+
+# Lyd
+## Lyd-Komponent interface
+```cpp
+class SoundComponent
 ```
