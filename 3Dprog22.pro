@@ -18,6 +18,7 @@ SOURCES += main.cpp \
     light.cpp \
     logger.cpp \
     mainwindow.cpp \
+    nutobject.cpp \
     octahedronball.cpp \
     renderwindow.cpp \
     shader.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     camera.h \
     logger.h \
     mainwindow.h \
+    nutobject.h \
     objloader.h \
     octahedronball.h \
     renderwindow.h \
