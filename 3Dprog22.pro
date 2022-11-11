@@ -1,4 +1,4 @@
-QT          += core gui widgets opengl
+QT          += core gui widgets opengl qml
 
 TEMPLATE    = app
 CONFIG      += c++17
@@ -58,6 +58,7 @@ FORMS += \
     mainwindow.ui
 
 DISTFILES += \
+    JS/TestScript_01.js \
     phongshader.frag \
     phongshader.vert \
     plainshader.frag \

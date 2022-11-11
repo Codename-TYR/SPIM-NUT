@@ -141,6 +141,14 @@ private:
     Camera* mActiveCamera{nullptr};
     class Light *mLight{nullptr};
 
+    //~~ JS Section
+private:
+    // Does all the JavaScript setup
+    void SetupJS();
+    class QJSEngine* JSEngine;
+
+    //~~ JS Section End
+
 };
 
 #endif // RENDERWINDOW_H

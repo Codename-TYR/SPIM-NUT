@@ -21,6 +21,13 @@
 #include "light.h"
 #include "soundmanager.h"
 
+//~~ Javascript Includes
+
+#include <QJSEngine>    //The script engine itself!
+#include <QFile>        //Reading from file
+
+//~~
+
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
 
@@ -149,6 +156,26 @@ void RenderWindow::init()
 
     mLight->orbit(0.1f);
 
+    // Does all the JavaScript setup
+    SetupJS();
+}
+
+void RenderWindow::SetupJS()
+{
+    JSEngine = new QJSEngine;
+
+    QString JSScript_01 = "../SPIM/JS/TestScript_01.js";
+
+    QFile scriptFile(JSScript_01);
+
+    if (!scriptFile.open(QIODevice::ReadOnly))
+        qDebug() << "Error - NO FILE HERE: " << JSScript_01;
+
+    QTextStream stream(&scriptFile);
+    QString contents = stream.readAll();
+    scriptFile.close();
+
+    JSEngine->evaluate(contents, JSScript_01);
 }
 
 void RenderWindow::render()
