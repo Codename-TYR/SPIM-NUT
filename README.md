@@ -38,7 +38,7 @@ private:
     std::vector<BaseComponent*> mComponents;
     void Tick(float deltaTime) {
         for (auto p : mComponents) {
-            p->ComponentTick(deltaTime, this);
+            p->ComponentTick(deltaTime);
         }
     }
 public:
