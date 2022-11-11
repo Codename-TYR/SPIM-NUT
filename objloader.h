@@ -8,17 +8,17 @@
 #include <sstream>
 
 #include <QMatrix4x4>
-#include <QVector3D>
-#include <QVector2D>
+#include "crapvectors.h"
+#include "crapvectors.h"
 
 #include "vertex.h"
 
 class OBJLoader {
 protected:
-    static std::vector<Vertex> loadOBJ(const char* fileName, const QVector3D& color) {
-        std::vector<QVector3D> vertexPos;
-        std::vector<QVector2D> vertexTextCoord;
-        std::vector<QVector3D> vertexNormal;
+    static std::vector<Vertex> loadOBJ(const char* fileName, const CrapVector3& color) {
+        std::vector"crapvectors.h" vertexPos;
+        std::vector"crapvectors.h" vertexTextCoord;
+        std::vector"crapvectors.h" vertexNormal;
 
         std::vector<int> vertexPositionIndicies;
         std::vector<int> vertexNormalIndicies;
@@ -31,8 +31,8 @@ protected:
         std::string line = "";
         std::string prefix = "";
 
-        QVector3D tempVec3;
-        QVector2D tempVec2;
+        CrapVector3 tempVec3;
+        CrapVector2 tempVec2;
         int tempInt;
 
         if (!inFile.is_open()) {
@@ -94,9 +94,9 @@ protected:
         vertices.reserve(vertexPositionIndicies.size());
 
         for (int i = 0; i < vertexPositionIndicies.size(); i++) {
-            QVector3D position = vertexPos[vertexPositionIndicies[i]-1];
-            QVector2D texcoord = vertexTextCoord[vertexTextCoordIndicies[i]-1];
-            QVector3D normal = vertexNormal[vertexNormalIndicies[i]-1];
+            CrapVector3 position = vertexPos[vertexPositionIndicies[i]-1];
+            CrapVector2 texcoord = vertexTextCoord[vertexTextCoordIndicies[i]-1];
+            CrapVector3 normal = vertexNormal[vertexNormalIndicies[i]-1];
             if (color.x() == 0 && color.y() == 0 && color.z() == 0) {
                 Vertex vert(position, normal, texcoord.x(), texcoord.y());
                 vertices.push_back(vert);

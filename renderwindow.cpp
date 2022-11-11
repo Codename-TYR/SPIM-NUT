@@ -342,23 +342,23 @@ void RenderWindow::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-QVector3D RenderWindow::ScreenToWorldDirection(float x, float y)
+CrapVector3 RenderWindow::ScreenToWorldDirection(float x, float y)
 {
     float halfScreenWidth = width() / 2.f;
     float halfScreenHeight = height() / 2.f;
 
     QMatrix4x4 mat = (mActiveCamera->mPmatrix * mActiveCamera->mVmatrix).inverted();
 
-    QVector4D n((x - halfScreenWidth) / halfScreenWidth, -1 * (y - halfScreenHeight) / halfScreenHeight, -1, 1);
-    QVector4D f((x - halfScreenWidth) / halfScreenWidth, -1 * (y - halfScreenHeight) / halfScreenHeight, 1, 1);
+    CrapVector4 n((x - halfScreenWidth) / halfScreenWidth, -1 * (y - halfScreenHeight) / halfScreenHeight, -1, 1);
+    CrapVector4 f((x - halfScreenWidth) / halfScreenWidth, -1 * (y - halfScreenHeight) / halfScreenHeight, 1, 1);
 
-    QVector4D nearResult = mat.map(n);
-    QVector4D farResult = mat.map(f);
+    CrapVector4 nearResult = mat.map(n);
+    CrapVector4 farResult = mat.map(f);
 
     nearResult /= nearResult.w();
     farResult /= farResult.w();
 
-    QVector3D dir = (farResult-nearResult).toVector3D();
+    CrapVector3 dir = (farResult-nearResult).toVector3D();
 
     dir.normalize();
 
@@ -432,7 +432,7 @@ void RenderWindow::Tick(float deltaTime)
     SoundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
 
 
-    QVector3D AttemptedMovement;
+    CrapVector3 AttemptedMovement;
     if (mCurrentInputs[Qt::Key_W]) {
         auto dir = mActiveCamera->Forward();
         AttemptedMovement += dir;
@@ -452,11 +452,11 @@ void RenderWindow::Tick(float deltaTime)
         AttemptedMovement += dir;
     }
     if (mCurrentInputs[Qt::Key_E]) {
-        QVector3D dir = {0,0,-1};
+        CrapVector3 dir = {0,0,-1};
         AttemptedMovement += dir;
     }
     if (mCurrentInputs[Qt::Key_Q]) {
-        QVector3D dir = {0,0,1};
+        CrapVector3 dir = {0,0,1};
         AttemptedMovement += dir;
     }
 

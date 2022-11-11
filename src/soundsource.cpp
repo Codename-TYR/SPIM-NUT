@@ -115,13 +115,13 @@ void SoundSource::stop()
     alSourceStop(mSource);
 }
 
-void SoundSource::setPosition(QVector3D newPos)
+void SoundSource::setPosition(CrapVector3 newPos)
 {
     mPosition = newPos;
     ALfloat temp[3] = {mPosition.x(), mPosition.y(), mPosition.z()};
     alSourcefv(mSource, AL_POSITION, temp);
 }
-void SoundSource::setVelocity(QVector3D newVel)
+void SoundSource::setVelocity(CrapVector3 newVel)
 {
     mVelocity = newVel;
     ALfloat temp[3] = {mVelocity.x(), mVelocity.y(), mVelocity.z()};

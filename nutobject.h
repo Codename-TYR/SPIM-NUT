@@ -1,7 +1,7 @@
 #ifndef NUTOBJECT_H
 #define NUTOBJECT_H
 
-#include <QVector3D>
+#include "crapvectors.h"
 #include "world.h"
 
 class NUTObject

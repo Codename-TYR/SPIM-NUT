@@ -3,7 +3,7 @@
 
 #include <QOpenGLFunctions_4_1_Core>
 #include <QMatrix4x4>
-#include <QVector3D>
+#include "crapvectors.h"
 
 #include "visualobject.h"
 
@@ -12,7 +12,7 @@ class Camera : public QOpenGLFunctions_4_1_Core
 private:
     GLint  mPmatrixUniform;
     GLint  mVmatrixUniform;
-    QVector3D mEye;
+    CrapVector3 mEye;
 
 
     VisualObject* mTarget{nullptr};
@@ -22,21 +22,21 @@ private:
     bool mCameraIsBusy{false};
     bool mAllowDirectionChange{false};
     bool mStaticPosition{false};
-    QVector3D oldTargetPos;
+    CrapVector3 oldTargetPos;
     float pitch{0.f}, yaw{0.f};
 public:
 
     QMatrix4x4 mPmatrix{};
      QMatrix4x4 mVmatrix{};
-    QVector3D GetPosition();
+    CrapVector3 GetPosition();
     Camera();
     ~Camera();
     void init(GLint pMatrixUniform, GLint vMatrixUniform);
     void perspective(float degrees, double aspect, double nearplane, double farplane);
-    void lookAt(const QVector3D &at);
-    void lookAt(const QVector3D& eye, const QVector3D& at, const QVector3D& up);
-    void rotateAround(int degrees, const QVector3D &around);
-    void rotateAround(float magnitude, const QVector3D direction);
+    void lookAt(const CrapVector3 &at);
+    void lookAt(const CrapVector3& eye, const CrapVector3& at, const CrapVector3& up);
+    void rotateAround(int degrees, const CrapVector3 &around);
+    void rotateAround(float magnitude, const CrapVector3 direction);
     void followMouseMovements(float x, float y);
     void update();
     void SetTarget(VisualObject* target);
@@ -45,14 +45,14 @@ public:
     void Zoom(float diff);
     void setAllowedToFollow(bool status);
 
-    QVector3D Forward();
-    QVector3D Right();
+    CrapVector3 Forward();
+    CrapVector3 Right();
 //    void rotate(){mVmatrix.rotate(1, {0, 0, 1});}
 
-    QVector3D Up();
-    void SetPosition(const QVector3D &newPos);
+    CrapVector3 Up();
+    void SetPosition(const CrapVector3 &newPos);
     void update(GLint pMat, GLint vMat);
-    void Move(QVector3D direction, float speed);
+    void Move(CrapVector3 direction, float speed);
     void firstPersonMouseMove(float x, float y);
 };
 

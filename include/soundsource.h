@@ -11,7 +11,7 @@
 #endif
 
 #include <string>
-#include <QVector3D>
+#include "crapvectors.h"
 
 /// One sound source.
 /**
@@ -45,17 +45,17 @@ public:
     **/
     bool loadWave(std::string filePath);
 
-    void setPosition(QVector3D newPos);             ///< Sets source position from QVector3D.
-    QVector3D getPosition() {return mPosition;}     ///< Returns source position as QVector3D.
-    void setVelocity(QVector3D newVel);             ///< Sets source velocity from QVector3D.
-    QVector3D getVelocity() {return mVelocity;}     ///< Returns source velocity as QVector3D.
+    void setPosition(CrapVector3 newPos);             ///< Sets source position from CrapVector3.
+    CrapVector3 getPosition() {return mPosition;}     ///< Returns source position as CrapVector3.
+    void setVelocity(CrapVector3 newVel);             ///< Sets source velocity from CrapVector3.
+    CrapVector3 getVelocity() {return mVelocity;}     ///< Returns source velocity as CrapVector3.
 
 private:
     std::string mName;          ///< The name of the sound source (Not used).
     ALuint mSource;             ///< The sound source.
     ALuint mBuffer;             ///< The data buffer.
-    QVector3D mPosition;    ///< Vector containing source position.
-    QVector3D mVelocity;    ///< Vector containing source velocity.
+    CrapVector3 mPosition;    ///< Vector containing source position.
+    CrapVector3 mVelocity;    ///< Vector containing source velocity.
     bool checkError(std::string name);
 };
 

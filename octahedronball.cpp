@@ -1,5 +1,5 @@
 #include "octahedronball.h"
-
+#include <math.h>
 OctahedronBall::OctahedronBall()
 {
 
@@ -10,8 +10,8 @@ OctahedronBall::~OctahedronBall()
    //
 }
 
-void OctahedronBall::lagTriangel(std::vector<Vertex>& mVertices, const QVector3D& v1, const QVector3D& v2,
-const QVector3D& v3)
+void OctahedronBall::lagTriangel(std::vector<Vertex>& mVertices, const CrapVector3& v1, const CrapVector3& v2,
+const CrapVector3& v3)
 {
     if (mUsingCustomColor) {
 
@@ -33,12 +33,12 @@ const QVector3D& v3)
     }
 }
 
-void OctahedronBall::subDivide(std::vector<Vertex>& mVertices, const QVector3D& a, const QVector3D& b, const QVector3D& c, int n)
+void OctahedronBall::subDivide(std::vector<Vertex>& mVertices, const CrapVector3& a, const CrapVector3& b, const CrapVector3& c, int n)
 {
    if (n>0) {
-       QVector3D v1 = a+b; v1.normalize(); v1 *= mScale;
-       QVector3D v2 = a+c; v2.normalize(); v2 *= mScale;
-       QVector3D v3 = c+b; v3.normalize(); v3 *= mScale;
+       CrapVector3 v1 = a+b; v1.normalize(); v1 *= mScale;
+       CrapVector3 v2 = a+c; v2.normalize(); v2 *= mScale;
+       CrapVector3 v3 = c+b; v3.normalize(); v3 *= mScale;
        subDivide(mVertices, a, v1, v2, n-1);
        subDivide(mVertices, c, v2, v3, n-1);
        subDivide(mVertices, b, v3, v1, n-1);
@@ -48,20 +48,20 @@ void OctahedronBall::subDivide(std::vector<Vertex>& mVertices, const QVector3D& 
    }
 }
 
-std::vector<Vertex> OctahedronBall::oktaederUnitBall(int n, const QVector3D& color, float scale)
+std::vector<Vertex> OctahedronBall::oktaederUnitBall(int n, const CrapVector3& color, float scale)
 {
     mColor = color;
     mScale = scale;
     mUsingCustomColor = true;
     int m_rekursjoner = n;
     std::vector<Vertex> mVertices;
-    mVertices.reserve(3 * 8 * pow(4, m_rekursjoner));
-    QVector3D v0{0, 0, 1}; v0 *= mScale;
-    QVector3D v1{1, 0, 0}; v1 *= mScale;
-    QVector3D v2{0, 1, 0}; v2 *= mScale;
-    QVector3D v3{-1, 0, 0}; v3 *= mScale;
-    QVector3D v4{0, -1, 0}; v4 *= mScale;
-    QVector3D v5{0, 0, -1}; v5 *= mScale;
+    mVertices.reserve(3 * 8 * std::pow(4, m_rekursjoner));
+    CrapVector3 v0{0, 0, 1}; v0 *= mScale;
+    CrapVector3 v1{1, 0, 0}; v1 *= mScale;
+    CrapVector3 v2{0, 1, 0}; v2 *= mScale;
+    CrapVector3 v3{-1, 0, 0}; v3 *= mScale;
+    CrapVector3 v4{0, -1, 0}; v4 *= mScale;
+    CrapVector3 v5{0, 0, -1}; v5 *= mScale;
 
     subDivide(mVertices, v0, v1, v2, m_rekursjoner);
     subDivide(mVertices, v0, v2, v3, m_rekursjoner);
@@ -81,12 +81,12 @@ std::vector<Vertex> OctahedronBall::oktaederUnitBall(int n)
     int m_rekursjoner = n;
     std::vector<Vertex> mVertices;
     mVertices.reserve(3 * 8 * pow(4, m_rekursjoner));
-    QVector3D v0{0, 0, 1};
-    QVector3D v1{1, 0, 0};
-    QVector3D v2{0, 1, 0};
-    QVector3D v3{-1, 0, 0};
-    QVector3D v4{0, -1, 0};
-    QVector3D v5{0, 0, -1};
+    CrapVector3 v0{0, 0, 1};
+    CrapVector3 v1{1, 0, 0};
+    CrapVector3 v2{0, 1, 0};
+    CrapVector3 v3{-1, 0, 0};
+    CrapVector3 v4{0, -1, 0};
+    CrapVector3 v5{0, 0, -1};
 
     subDivide(mVertices, v0, v1, v2, m_rekursjoner);
     subDivide(mVertices, v0, v2, v3, m_rekursjoner);

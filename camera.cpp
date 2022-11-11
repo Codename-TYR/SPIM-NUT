@@ -1,6 +1,6 @@
 #include "camera.h"
 #include <iostream>
-QVector3D Camera::GetPosition()
+CrapVector3 Camera::GetPosition()
 {
     return mEye;
 }
@@ -16,7 +16,7 @@ Camera::~Camera()
 
 }
 
-void Camera::Move(QVector3D direction, float speed)
+void Camera::Move(CrapVector3 direction, float speed)
 {
     mEye += (-direction * speed);
     mVmatrix.translate(direction * speed);
@@ -39,13 +39,13 @@ void Camera::perspective(float degrees, double aspect, double nearplane, double 
     //mPmatrix.frustum(-1, 1, -1, 1, 1, 100);
 }
 
-void Camera::lookAt(const QVector3D &eye, const QVector3D &at, const QVector3D &up)
+void Camera::lookAt(const CrapVector3 &eye, const CrapVector3 &at, const CrapVector3 &up)
 {
     mVmatrix.setToIdentity();
     mVmatrix.lookAt(eye, at, up);
 }
 
-void Camera::rotateAround(int degrees, const QVector3D &around)
+void Camera::rotateAround(int degrees, const CrapVector3 &around)
 {
     //    for (int i = 0; i < degrees; i++) {
     //        mEye.setY(mEye.y()+.01f);
@@ -64,11 +64,11 @@ void Camera::rotateAround(int degrees, const QVector3D &around)
 
     mVmatrix.setToIdentity();
 
-    mVmatrix.lookAt(mEye, around, QVector3D{0, 0, 1});
+    mVmatrix.lookAt(mEye, around, CrapVector3{0, 0, 1});
 
 }
 
-void Camera::rotateAround(float magnitude, const QVector3D direction)
+void Camera::rotateAround(float magnitude, const CrapVector3 direction)
 {
     if (mTarget == nullptr) return;
 
@@ -76,7 +76,7 @@ void Camera::rotateAround(float magnitude, const QVector3D direction)
 
     rotation.setToIdentity();
 
-    QVector3D around = mTarget->getPosition();
+    CrapVector3 around = mTarget->getPosition();
 
     rotation.translate(around);
     rotation.rotate(magnitude, direction);
@@ -86,7 +86,7 @@ void Camera::rotateAround(float magnitude, const QVector3D direction)
 
     mVmatrix.setToIdentity();
 
-    mVmatrix.lookAt(mEye, around, QVector3D{0, 0, 1});
+    mVmatrix.lookAt(mEye, around, CrapVector3{0, 0, 1});
 }
 
 void Camera::firstPersonMouseMove(float x, float y)
@@ -104,15 +104,15 @@ void Camera::followMouseMovements(float x, float y)
     QMatrix4x4 rotation;
 
     rotation.setToIdentity();
-    QVector3D around;
+    CrapVector3 around;
     if (mTarget == nullptr) {
         around = {0, 0, 0};
     } else {
         around = mTarget->getPosition();
     }
 
-    QVector3D oldPosition = mEye;
-    QVector3D oldRight = Right();
+    CrapVector3 oldPosition = mEye;
+    CrapVector3 oldRight = Right();
 
     x *= mMovementSensitivity;
     y *= mMovementSensitivity;
@@ -124,19 +124,19 @@ void Camera::followMouseMovements(float x, float y)
 
     mEye = rotation.map(mEye);
 
-    if (QVector3D::dotProduct(Right(), oldRight) < 0)
+    if (CrapVector3::dotProduct(Right(), oldRight) < 0)
         mEye = oldPosition;
     //std::cout << "X: " << Right().x() << "y: " << Right().y() << "Z: " << Right().z() << std::endl;
 
     mVmatrix.setToIdentity();
 
-    mVmatrix.lookAt(mEye, around, QVector3D{0, 0, 1});
+    mVmatrix.lookAt(mEye, around, CrapVector3{0, 0, 1});
 }
 
-void Camera::lookAt(const QVector3D &at)
+void Camera::lookAt(const CrapVector3 &at)
 {
     mVmatrix.setToIdentity();
-    mVmatrix.lookAt(mEye, at, QVector3D{0, 0, 1});
+    mVmatrix.lookAt(mEye, at, CrapVector3{0, 0, 1});
 }
 
 void Camera::update()
@@ -163,7 +163,7 @@ void Camera::SetStatic(bool isStatic)
     mStaticPosition = isStatic;
 }
 
-void Camera::SetPosition(const QVector3D& newPos) {
+void Camera::SetPosition(const CrapVector3& newPos) {
     mEye = newPos;
 }
 
@@ -183,28 +183,28 @@ void Camera::setAllowedToFollow(bool status)
     mAllowDirectionChange = status;
 }
 
-QVector3D Camera::Forward()
+CrapVector3 Camera::Forward()
 {
 
-    QVector3D vec = mVmatrix.row(2).toVector3D();
+    CrapVector3 vec = mVmatrix.row(2).toVector3D();
 
 
     //std::cout << "X: " << out.x() << "y: " << out.y() << "Z: " << out.z() << std::endl;
     return vec;
 }
 
-QVector3D Camera::Right()
+CrapVector3 Camera::Right()
 {
-    QVector3D vec = mVmatrix.row(0).toVector3D();
+    CrapVector3 vec = mVmatrix.row(0).toVector3D();
 
 
     //std::cout << "X: " << out.x() << "y: " << out.y() << "Z: " << out.z() << std::endl;
     return -vec;
 }
 
-QVector3D Camera::Up()
+CrapVector3 Camera::Up()
 {
-    QVector3D out = QVector3D::crossProduct(Right(), Forward());
+    CrapVector3 out = CrapVector3::crossProduct(Right(), Forward());
 
     out.normalize();
     //std::cout << "X: " << out.x() << "y: " << out.y() << "Z: " << out.z() << std::endl;

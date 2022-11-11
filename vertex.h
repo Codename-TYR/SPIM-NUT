@@ -1,6 +1,6 @@
 #ifndef VERTEX_H
 #define VERTEX_H
-#include <QVector3D>
+#include "crapvectors.h"
 #include <iostream>
 //#include "interactiveobject.h"
 
@@ -20,12 +20,12 @@ private:
 
 public:
    // Constructors
-   QVector3D GetXYZ();
+   CrapVector3 GetXYZ();
    Vertex();
    Vertex(float x, float y, float z, float r, float g, float b);
-   Vertex(QVector3D xyz, float r, float g, float b);
-   Vertex(QVector3D xyz, QVector3D normal);
+   Vertex(CrapVector3 xyz, float r, float g, float b);
+   Vertex(CrapVector3 xyz, CrapVector3 normal);
    Vertex(float x, float y, float z, float r, float g, float b, float s, float t);
-   Vertex(QVector3D xyz, QVector3D normal, float s, float t);
+   Vertex(CrapVector3 xyz, CrapVector3 normal, float s, float t);
 };
 #endif // VERTEX_H

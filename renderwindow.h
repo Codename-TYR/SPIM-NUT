@@ -44,7 +44,7 @@ public:
 
     void ResetCamera();
 
-    QVector3D ScreenToWorldDirection(float x, float y);
+    CrapVector3 ScreenToWorldDirection(float x, float y);
 private slots:
     void render();          //the actual render - function
 

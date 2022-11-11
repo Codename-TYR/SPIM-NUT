@@ -32,9 +32,9 @@ std::string& operator>> (std::string& is, Vertex& v) {
     return is;
 }
 
-QVector3D Vertex::GetXYZ()
+CrapVector3 Vertex::GetXYZ()
 {
-    return QVector3D{m_xyz[0], m_xyz[1], m_xyz[2]};
+    return CrapVector3{m_xyz[0], m_xyz[1], m_xyz[2]};
 }
 
 Vertex::Vertex()
@@ -54,19 +54,19 @@ Vertex::Vertex(float x, float y, float z, float r, float g, float b, float s, fl
 
 }
 
-Vertex::Vertex(QVector3D xyz, float r, float g, float b)
+Vertex::Vertex(CrapVector3 xyz, float r, float g, float b)
     :m_xyz{xyz.x(), xyz.y(), xyz.z()}, m_normal{r,g,b}, m_st{0.f, 0.f}
 {
 
 }
 
-Vertex::Vertex(QVector3D xyz, QVector3D normal)
+Vertex::Vertex(CrapVector3 xyz, CrapVector3 normal)
     :m_xyz{xyz.x(), xyz.y(), xyz.z()}, m_normal{normal.x(), normal.y(), normal.z()}, m_st{0.f, 0.f}
 {
 
 }
 
-Vertex::Vertex(QVector3D xyz, QVector3D normal, float s, float t)
+Vertex::Vertex(CrapVector3 xyz, CrapVector3 normal, float s, float t)
     :m_xyz{xyz.x(), xyz.y(), xyz.z()}, m_normal{normal.x(), normal.y(), normal.z()}, m_st{s, t}
 {
 

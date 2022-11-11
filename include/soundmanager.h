@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 #include "soundsource.h"
-#include <QVector3D>
+#include "crapvectors.h"
 
 /// Class handling OpenAL setup and management of sound sources.
 /**
@@ -24,21 +24,21 @@ class SoundManager
 public:
     struct SoundListener
     {
-        QVector3D pos;
-        QVector3D vel;
-        QVector3D dir;
-        QVector3D up;
+        CrapVector3 pos;
+        CrapVector3 vel;
+        CrapVector3 dir;
+        CrapVector3 up;
         SoundListener()
         {
-            pos = QVector3D(0.0f, 0.0f, 0.0f);
-            vel = QVector3D(0.0f, 0.0f, 0.0f);
-            dir = QVector3D(0.0f, 0.0f, 1.0f);
-            up = QVector3D(0.0f, 1.0f, 0.0f);
-            //Could be something like this, if QVector3D-class had support support:
-            //pos = QVector3D::ZERO;
-            //vel = QVector3D::ZERO;
-            //dir = QVector3D::UNIT_Z;
-            //up = QVector3D::UNIT_Y;
+            pos = CrapVector3(0.0f, 0.0f, 0.0f);
+            vel = CrapVector3(0.0f, 0.0f, 0.0f);
+            dir = CrapVector3(0.0f, 0.0f, 1.0f);
+            up = CrapVector3(0.0f, 1.0f, 0.0f);
+            //Could be something like this, if CrapVector3-class had support support:
+            //pos = CrapVector3::ZERO;
+            //vel = CrapVector3::ZERO;
+            //dir = CrapVector3::UNIT_Z;
+            //up = CrapVector3::UNIT_Y;
         }
     };
 
@@ -57,12 +57,12 @@ public:
     /// Creates a new SoundSource with the given parameters.
     /**
         \param The name of the sound. (Not in use.)
-        \param The source position as QVector3D.
+        \param The source position as CrapVector3.
         \param File path relative to execution directory.
         \param Boolean to see if sound should loop or not.
     **/
-    SoundSource* createSource(std::string name, QVector3D pos, std::string filePath = "", bool loop = false, float gain = 1.0);
-    void updateListener(QVector3D pos, QVector3D vel, QVector3D dir, QVector3D up);
+    SoundSource* createSource(std::string name, CrapVector3 pos, std::string filePath = "", bool loop = false, float gain = 1.0);
+    void updateListener(CrapVector3 pos, CrapVector3 vel, CrapVector3 dir, CrapVector3 up);
 
 private:
     SoundManager();                         ///< Private constructor.

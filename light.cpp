@@ -9,7 +9,7 @@ Light::Light()
     mMatrix.setToIdentity();
 }
 
-void Light::setOrbitPoint(QVector3D pt) {
+void Light::setOrbitPoint(CrapVector3 pt) {
     mOrbitPoint = pt;
     mPosition.translate(mOrbitPoint);
 }

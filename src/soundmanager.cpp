@@ -77,7 +77,7 @@ bool SoundManager::checkError()
     return true;
 }
 
-SoundSource* SoundManager::createSource(std::string name, QVector3D pos, std::string filePath, bool loop, float gain)
+SoundSource* SoundManager::createSource(std::string name, CrapVector3 pos, std::string filePath, bool loop, float gain)
 {
     SoundSource* tempPtr = new SoundSource(name, loop, gain);
     tempPtr->setPosition(pos);
@@ -86,7 +86,7 @@ SoundSource* SoundManager::createSource(std::string name, QVector3D pos, std::st
     return tempPtr;
 }
 
-void SoundManager::updateListener(QVector3D pos, QVector3D vel, QVector3D dir, QVector3D up)
+void SoundManager::updateListener(CrapVector3 pos, CrapVector3 vel, CrapVector3 dir, CrapVector3 up)
 {
     ALfloat posVec[3];
     ALfloat velVec[3];

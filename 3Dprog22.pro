@@ -15,11 +15,11 @@ win32 {
 
 SOURCES += main.cpp \
     camera.cpp \
+    crapvectors.cpp \
     light.cpp \
     logger.cpp \
     mainwindow.cpp \
     nutobject.cpp \
-    nutvector3d.cpp \
     octahedronball.cpp \
     renderwindow.cpp \
     shader.cpp \
@@ -35,6 +35,7 @@ SOURCES += main.cpp \
     xyz.cpp
 
 HEADERS += \
+    crapvectors.h \
     include/soundmanager.h \
     include/soundsource.h \
     include/wavfilehandler.h \
@@ -43,7 +44,6 @@ HEADERS += \
     logger.h \
     mainwindow.h \
     nutobject.h \
-    nutvector3d.h \
     objloader.h \
     octahedronball.h \
     renderwindow.h \

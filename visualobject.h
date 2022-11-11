@@ -17,14 +17,14 @@ public:
     virtual void move(float x, float y, float z);
     virtual void move(float dt) { };
     virtual void setVertices(std::vector<Vertex> vertices);
-    virtual QVector3D getPosition();
+    virtual CrapVector3 getPosition();
     void setName(std::string name);
     std::string Name();
     bool nameContains(std::string test){return mName.compare(test) == 1;};
     QMatrix4x4 mMatrix;
-    QVector3D Barycentric(QVector3D object, QVector3D P1, QVector3D P2, QVector3D P3);
-    bool isOverlappingTriangle(QVector3D baryc, QVector3D P1, QVector3D P2, QVector3D P3);
-    float GetBarycentricHeight(QVector3D baryc, QVector3D P1, QVector3D P2, QVector3D P3);
+    CrapVector3 Barycentric(CrapVector3 object, CrapVector3 P1, CrapVector3 P2, CrapVector3 P3);
+    bool isOverlappingTriangle(CrapVector3 baryc, CrapVector3 P1, CrapVector3 P2, CrapVector3 P3);
+    float GetBarycentricHeight(CrapVector3 baryc, CrapVector3 P1, CrapVector3 P2, CrapVector3 P3);
 protected:
     friend class InteractiveObject;
     std::vector<Vertex> mVertices;
@@ -35,7 +35,7 @@ protected:
     QMatrix4x4 mRotation;
     QMatrix4x4 mPosition;
     QMatrix4x4 mScale;
-    QVector3D mVelocity{.1f, 0.f, 0.f};
+    CrapVector3 mVelocity{.1f, 0.f, 0.f};
     std::string mName;
 };
 #endif // VISUALOBJECT_H
