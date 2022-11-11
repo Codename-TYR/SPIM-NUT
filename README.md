@@ -8,7 +8,7 @@ private:
     bool mEnableTick{false};
     QVector3D mLocalOffset;
 public:
-    virtual void ComponentTick(float deltaTime, Actor* parentActor)=0;
+    virtual void ComponentTick(float deltaTime)=0;
 };
 ```
 ### Fysikk Component
@@ -16,7 +16,7 @@ public:
 class PhysicsComponent : BaseComponent
 {
 public:
-    void ComponentTick(float deltaTime, Actor* parentActor) override;
+    void ComponentTick(float deltaTime) override;
     
     QVector3D GetVelocity();
     
@@ -76,7 +76,7 @@ public:
 class SoundComponent : BaseComponent
 {
 public:
-    void ComponentTick(float deltaTime, Actor* parentActor) override;
+    void ComponentTick(float deltaTime) override;
     
     // Den første viser implementasjon, men dette skal i en cpp fil, pause og stop skal være relativt like
     void Play(std::string sound) {
