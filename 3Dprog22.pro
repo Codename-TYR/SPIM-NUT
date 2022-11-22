@@ -24,10 +24,8 @@ SOURCES += main.cpp \
     planecollider.cpp \
     renderwindow.cpp \
     shader.cpp \
+    sound.cpp \
     spherecollider.cpp \
-    src/soundmanager.cpp \
-    src/soundsource.cpp \
-    src/wavfilehandler.cpp \
     texture.cpp \
     triangle.cpp \
     trianglecollider.cpp \
@@ -39,9 +37,6 @@ SOURCES += main.cpp \
 
 HEADERS += \
     colliderbase.h \
-    include/soundmanager.h \
-    include/soundsource.h \
-    include/wavfilehandler.h \
     light.h \
     camera.h \
     logger.h \
@@ -52,6 +47,7 @@ HEADERS += \
     planecollider.h \
     renderwindow.h \
     shader.h \
+    sound.h \
     spherecollider.h \
     texture.h \
     triangle.h \

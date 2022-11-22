@@ -19,9 +19,10 @@
 #include "xyz.h"
 #include "texture.h"
 #include "light.h"
-#include "soundmanager.h"
+#include "sound.h"
 #include "planecollider.h"
 #include "spherecollider.h"
+
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -413,6 +414,13 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     {
         mMainWindow->close();
     }
+    if (event->key() == Qt::Key_R)
+    {
+        Sound* s = new Sound("ab");
+        s->Play("Explosion", "../SPIM/Assets/explosion.wav");
+        Sound* d = new Sound("ab");
+        d->Play("Explo", "../SPIM/Assets/Caravan_mono.wav");
+    }
 }
 
 void RenderWindow::keyReleaseEvent(QKeyEvent *event)
@@ -450,7 +458,7 @@ void RenderWindow::Tick(float deltaTime)
 
     }
 
-    SoundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
+    //SoundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
 
 
     QVector3D AttemptedMovement;
