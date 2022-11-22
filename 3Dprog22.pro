@@ -21,6 +21,7 @@ SOURCES += main.cpp \
     nutobject.cpp \
     octahedronball.cpp \
     renderwindow.cpp \
+    scriptreader.cpp \
     shader.cpp \
     src/soundmanager.cpp \
     src/soundsource.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     objloader.h \
     octahedronball.h \
     renderwindow.h \
+    scriptreader.h \
     shader.h \
     texture.h \
     triangle.h \

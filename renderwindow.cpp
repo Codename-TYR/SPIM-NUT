@@ -8,6 +8,8 @@
 #include <QStatusBar>
 #include <QDebug>
 
+
+
 #include <string>
 #include <chrono>
 #include <cmath>
@@ -169,13 +171,18 @@ void RenderWindow::SetupJS()
     QFile scriptFile(JSScript_01);
 
     if (!scriptFile.open(QIODevice::ReadOnly))
-        qDebug() << "Error - NO FILE HERE: " << JSScript_01;
+        qDebug() << "Error | RenderWindow::SetupJS() | File Not Found" << JSScript_01;
 
     QTextStream stream(&scriptFile);
     QString contents = stream.readAll();
     scriptFile.close();
 
     JSEngine->evaluate(contents, JSScript_01);
+
+    QJSValue func1 = JSEngine->evaluate("print1");
+    QJSValue func1Result = func1.call();
+    int x = func1Result.toInt();
+    qDebug() << x;
 }
 
 void RenderWindow::render()
