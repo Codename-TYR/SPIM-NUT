@@ -1,4 +1,4 @@
-QT          += core gui widgets opengl
+QT          += core gui widgets opengl qml
 
 TEMPLATE    = app
 CONFIG      += c++17
@@ -23,6 +23,7 @@ SOURCES += main.cpp \
     octahedronball.cpp \
     planecollider.cpp \
     renderwindow.cpp \
+    scriptreader.cpp \
     shader.cpp \
     sound.cpp \
     spherecollider.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
     octahedronball.h \
     planecollider.h \
     renderwindow.h \
+    scriptreader.h \
     shader.h \
     sound.h \
     spherecollider.h \
@@ -62,6 +64,7 @@ FORMS += \
     mainwindow.ui
 
 DISTFILES += \
+    JS/TestScript_01.js \
     phongshader.frag \
     phongshader.vert \
     plainshader.frag \

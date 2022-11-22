@@ -143,9 +143,20 @@ private:
     Camera* mActiveCamera{nullptr};
     class Light *mLight{nullptr};
 
+
+    //~~ JS Section
+private:
+    // Does all the JavaScript setup
+    void SetupJS();
+    class QJSEngine* JSEngine;
+
+    //~~ JS Section End
+
+
     class PlaneCollider* mGround{nullptr};
     class SphereCollider* mSphere{nullptr};
     class SphereCollider* mSphere2{nullptr};
+
 };
 
 #endif // RENDERWINDOW_H

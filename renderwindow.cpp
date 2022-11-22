@@ -8,6 +8,8 @@
 #include <QStatusBar>
 #include <QDebug>
 
+
+
 #include <string>
 #include <chrono>
 #include <cmath>
@@ -23,6 +25,13 @@
 #include "planecollider.h"
 #include "spherecollider.h"
 
+
+//~~ Javascript Includes
+
+#include <QJSEngine>    //The script engine itself!
+#include <QFile>        //Reading from file
+
+//~~
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -164,6 +173,31 @@ void RenderWindow::init()
 
     mLight->orbit(0.1f);
 
+    // Does all the JavaScript setup
+    SetupJS();
+}
+
+void RenderWindow::SetupJS()
+{
+    JSEngine = new QJSEngine;
+
+    QString JSScript_01 = "../SPIM/JS/TestScript_01.js";
+
+    QFile scriptFile(JSScript_01);
+
+    if (!scriptFile.open(QIODevice::ReadOnly))
+        qDebug() << "Error | RenderWindow::SetupJS() | File Not Found" << JSScript_01;
+
+    QTextStream stream(&scriptFile);
+    QString contents = stream.readAll();
+    scriptFile.close();
+
+    JSEngine->evaluate(contents, JSScript_01);
+
+    QJSValue func1 = JSEngine->evaluate("print1");
+    QJSValue func1Result = func1.call();
+    int x = func1Result.toInt();
+    qDebug() << x;
 }
 
 void RenderWindow::render()
