@@ -24,44 +24,59 @@ void VisualObject::setVertices(std::vector<Vertex> vertices) {
 
 QVector3D VisualObject::Barycentric(QVector3D object, QVector3D P1, QVector3D P2, QVector3D P3)
 {
-    P1.setZ(0);
-    P2.setZ(0);
-    P3.setZ(0);
-
-    QVector3D P12 = (P2-P1);
-    QVector3D P13 = (P3-P1);
-
-    QVector3D n = QVector3D::crossProduct(P12, P13);
-    float areal_123 = n.length();
-
     QVector3D baryc;
+    double det = (P2.y() - P3.y())*(P1.x() - P3.x()) + (P3.x() - P2.x())*(P1.y() - P3.y());
+    double factor_alpha = (P2.y() - P3.y())*(object.x() - P3.x()) + (P3.x() - P2.x())*(object.y() - P3.y());
+    double factor_beta = (P3.y() - P1.y())*(object.x() - P3.x()) + (P1.x() - P3.x())*(object.y() - P3.y());
+    baryc.setX(factor_alpha / det);
+    baryc.setY(factor_beta / det);
+    baryc.setZ(1.0 - baryc.x() - baryc.y());
 
-    // u
-    QVector3D p = P2 - object;
-    QVector3D q = P3 - object;
-    n = QVector3D::crossProduct(p,q);
-    baryc.setX(n.z()/areal_123);
 
-    // v
-    p = P3 - object;
-    q = P1 - object;
-    n = QVector3D::crossProduct(p,q);
-    baryc.setY(n.z()/areal_123);
 
-    // w
-    p = P1 - object;
-    q = P2 - object;
-    n = QVector3D::crossProduct(p,q);
-    baryc.setZ(n.z()/areal_123);
+//    P1.setZ(0);
+//    P2.setZ(0);
+//    P3.setZ(0);
+
+//    QVector3D P12 = (P2-P1);
+//    QVector3D P13 = (P3-P1);
+
+//    QVector3D n = QVector3D::crossProduct(P12, P13);
+//    float areal_123 = n.length();
+
+
+
+//    // u
+//    QVector3D p = P2 - object;
+//    QVector3D q = P3 - object;
+//    n = QVector3D::crossProduct(p,q);
+//    baryc.setX(n.z()/areal_123);
+
+//    // v
+//    p = P3 - object;
+//    q = P1 - object;
+//    n = QVector3D::crossProduct(p,q);
+//    baryc.setY(n.z()/areal_123);
+
+//    // w
+//    p = P1 - object;
+//    q = P2 - object;
+//    n = QVector3D::crossProduct(p,q);
+//    baryc.setZ(n.z()/areal_123);
 
     return baryc;
 
 }
 
-bool VisualObject::isOverlappingTriangle(QVector3D baryc, QVector3D P1, QVector3D P2, QVector3D P3)
+QVector3D VisualObject::GetNormalFromPoints(const QVector3D& p1, const QVector3D& p2, const QVector3D& p3)
+{
+    return QVector3D::crossProduct(p3-p1, p2-p1).normalized();
+}
+
+bool VisualObject::isOverlappingTriangle(QVector3D baryc)
 {
     //auto baryc = Barycentric(P1, P2, P3);
-    return baryc.x() >= 0.f && baryc.y() >= 0.f && baryc.z() >= 0.f;
+    return baryc.x() >= 0 && baryc.y() >= 0 && baryc.z() >= 0;
 }
 
 float VisualObject::GetBarycentricHeight(QVector3D baryc, QVector3D P1, QVector3D P2, QVector3D P3)

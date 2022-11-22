@@ -1,52 +1,21 @@
 #include "triangle.h"
 #include "vertex.h"
 
-Triangle::Triangle()
+Triangle::Triangle(const Vertex &v1, const Vertex &v2, const Vertex &v3)
 {
-                                // Positions            // Colors       //UV
-    mVertices.push_back(Vertex{-0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,  0.f, 0.f}); // Bottom Left
-    mVertices.push_back(Vertex{0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,    1.0f, 0.f}); // Bottom Right
-    mVertices.push_back(Vertex{0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.5f, 1.f}); // Top
-    mMatrix.setToIdentity();
+    verts[0] = &v1;
+    verts[1] = &v2;
+    verts[2] = &v3;
 }
 
 Triangle::~Triangle()
 {
 }
 
-void Triangle::init(GLint mat)
+void Triangle::SetVertices(const Vertex &v1, const Vertex &v2, const Vertex &v3)
 {
-    //must call this to use OpenGL functions
-    initializeOpenGLFunctions();
-
-    glGenVertexArrays( 1, &mVAO );
-    glBindVertexArray( mVAO );
-
-    //Vertex Buffer Object to hold vertices - VBO
-    glGenBuffers( 1, &mVBO );
-    glBindBuffer( GL_ARRAY_BUFFER, mVBO );
-
-    //Vertex Buffer Object to hold vertices - VBO
-    glBufferData( GL_ARRAY_BUFFER, mVertices.size()*sizeof( Vertex ), mVertices.data(), GL_STATIC_DRAW );
-
-    // 1rst attribute buffer : vertices
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0  );          // array buffer offset
-    glEnableVertexAttribArray(0);
-
-    // 2nd attribute buffer : colors
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,  sizeof(Vertex),  (GLvoid*)(3 * sizeof(GLfloat)) );
-    glEnableVertexAttribArray(1);
-
-    // 3rd attribute buffer : uvs
-    glVertexAttribPointer(2, 2,  GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)( 6 * sizeof(GLfloat)) );
-    glEnableVertexAttribArray(2);
-
-    glBindVertexArray(0);
+    verts[0] = &v1;
+    verts[1] = &v2;
+    verts[2] = &v3;
 }
 
-void Triangle::draw()
-{
-    glBindVertexArray( mVAO );
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glBindVertexArray(0);
-}
