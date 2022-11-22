@@ -75,7 +75,7 @@ float TriangleSurface::myEquation(float x, float y)
 void TriangleSurface::WriteToFile(std::string fileName)
 {
     std::ofstream file;
-    file.open("../SPIM/txt_files/"+fileName);
+    file.open("../SPIM-NUT/txt_files/"+fileName);
     if(file.is_open())
     {
         file << mVertices.size() << std::endl;
@@ -91,7 +91,7 @@ void TriangleSurface::WriteToFile(std::string fileName)
 void TriangleSurface::ReadFromFile(std::string fileName)
 {
     std::ifstream file;
-    file.open("../SPIM/txt_files/"+fileName);
+    file.open("../SPIM-NUT/txt_files/"+fileName);
     if (file.is_open())
     {
         int x{0};

@@ -109,11 +109,11 @@ void RenderWindow::init()
     //NB: hardcoded path to files! You have to change this if you change directories for the project.
     //Qt makes a build-folder besides the project folder. That is why we go down one directory
     // (out of the build-folder) and then up into the project folder.
-    mShaderProgram[0] = new Shader("../SPIM/plainshader.vert", "../SPIM/plainshader.frag");
+    mShaderProgram[0] = new Shader("../SPIM-NUT/plainshader.vert", "../SPIM-NUT/plainshader.frag");
     mLogger->logText("Plain shader program id: " + std::to_string(mShaderProgram[0]->getProgram()) );
-    mShaderProgram[1]= new Shader("../SPIM/textureshader.vert", "../SPIM/textureshader.frag");
+    mShaderProgram[1]= new Shader("../SPIM-NUT/textureshader.vert", "../SPIM-NUT/textureshader.frag");
     mLogger->logText("Texture shader program id: " + std::to_string(mShaderProgram[1]->getProgram()) );
-    mShaderProgram[2] = new Shader("../SPIM/phongshader.vert", "../SPIM/phongshader.frag");
+    mShaderProgram[2] = new Shader("../SPIM-NUT/phongshader.vert", "../SPIM-NUT/phongshader.frag");
     mLogger->logText("Texture shader program id: " + std::to_string(mShaderProgram[2]->getProgram()));
 
     setupPlainShader(0);
@@ -124,8 +124,8 @@ void RenderWindow::init()
     //Returns a pointer to the Texture class. This reads and sets up the texture for OpenGL
     //and returns the Texture ID that OpenGL uses from Texture::id()
     mTexture[0] = new Texture();
-    //mTexture[1] = new Texture("../SPIM/Assets/gress.bmp");
-    mTexture[1] = new Texture("../SPIM/Assets/test2.bmp");
+    //mTexture[1] = new Texture("../SPIM-NUT/Assets/gress.bmp");
+    mTexture[1] = new Texture("../SPIM-NUT/Assets/test2.bmp");
 
     //Set the textures loaded to a texture unit (also called a texture slot)
     glActiveTexture(GL_TEXTURE0);
