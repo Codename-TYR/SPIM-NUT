@@ -32,6 +32,13 @@ std::string& operator>> (std::string& is, Vertex& v) {
     return is;
 }
 
+void Vertex::setColor(QVector3D clr)
+{
+    m_normal[0] = clr.x();
+    m_normal[1] = clr.y();
+    m_normal[2] = clr.z();
+}
+
 QVector3D Vertex::GetXYZ()
 {
     return QVector3D{m_xyz[0], m_xyz[1], m_xyz[2]};

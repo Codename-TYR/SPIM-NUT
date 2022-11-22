@@ -21,7 +21,10 @@
 #include "xyz.h"
 #include "texture.h"
 #include "light.h"
-#include "soundmanager.h"
+#include "sound.h"
+#include "planecollider.h"
+#include "spherecollider.h"
+
 
 //~~ Javascript Includes
 
@@ -50,7 +53,14 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     mRenderTimer = new QTimer(this);
 
+    mGround = new PlaneCollider({0,0,0}, {0,10,0}, {10,10,0}, {10,0,0});
+    mCollisionObjects.push_back(mGround);
 
+    mSphere = new SphereCollider();
+    mCollisionObjects.push_back(mSphere);
+
+    mSphere2 = new SphereCollider();
+    mCollisionObjects.push_back(mSphere2);
 }
 
 RenderWindow::~RenderWindow()
@@ -109,11 +119,11 @@ void RenderWindow::init()
     //NB: hardcoded path to files! You have to change this if you change directories for the project.
     //Qt makes a build-folder besides the project folder. That is why we go down one directory
     // (out of the build-folder) and then up into the project folder.
-    mShaderProgram[0] = new Shader("../SPIM/plainshader.vert", "../SPIM/plainshader.frag");
+    mShaderProgram[0] = new Shader("../SPIM-NUT/plainshader.vert", "../SPIM-NUT/plainshader.frag");
     mLogger->logText("Plain shader program id: " + std::to_string(mShaderProgram[0]->getProgram()) );
-    mShaderProgram[1]= new Shader("../SPIM/textureshader.vert", "../SPIM/textureshader.frag");
+    mShaderProgram[1]= new Shader("../SPIM-NUT/textureshader.vert", "../SPIM-NUT/textureshader.frag");
     mLogger->logText("Texture shader program id: " + std::to_string(mShaderProgram[1]->getProgram()) );
-    mShaderProgram[2] = new Shader("../SPIM/phongshader.vert", "../SPIM/phongshader.frag");
+    mShaderProgram[2] = new Shader("../SPIM-NUT/phongshader.vert", "../SPIM-NUT/phongshader.frag");
     mLogger->logText("Texture shader program id: " + std::to_string(mShaderProgram[2]->getProgram()));
 
     setupPlainShader(0);
@@ -124,8 +134,8 @@ void RenderWindow::init()
     //Returns a pointer to the Texture class. This reads and sets up the texture for OpenGL
     //and returns the Texture ID that OpenGL uses from Texture::id()
     mTexture[0] = new Texture();
-    //mTexture[1] = new Texture("../SPIM/Assets/gress.bmp");
-    mTexture[1] = new Texture("../SPIM/Assets/test2.bmp");
+    //mTexture[1] = new Texture("../SPIM-NUT/Assets/gress.bmp");
+    mTexture[1] = new Texture("../SPIM-NUT/Assets/test2.bmp");
 
     //Set the textures loaded to a texture unit (also called a texture slot)
     glActiveTexture(GL_TEXTURE0);
@@ -143,6 +153,11 @@ void RenderWindow::init()
 
 
     for (auto i = mObjects.begin(); i != mObjects.end(); i++)
+    {
+        (*i)->init(mMatrixUniform0);
+    }
+
+    for (auto i = mCollisionObjects.begin(); i != mCollisionObjects.end(); i++)
     {
         (*i)->init(mMatrixUniform0);
     }
@@ -217,12 +232,15 @@ void RenderWindow::render()
      glUniform1f(mSpecularStrengthUniform, mLight->mSpecularStrenght);
 
 
-     glUseProgram(mShaderProgram[2]->getProgram());
-     mActiveCamera->update(pMatrixUniform2, vMatrixUniform2);
+     glUseProgram(mShaderProgram[0]->getProgram());
+     mActiveCamera->update(pMatrixUniform0, vMatrixUniform0);
 
     for (auto it=mObjects.begin(); it!= mObjects.end(); it++) {
-        glUniformMatrix4fv(mMatrixUniform2, 1, GL_FALSE, (*it)->mMatrix.constData());
-        glUniform1i(mTextureUniform2, 1);
+        glUniformMatrix4fv(mMatrixUniform0, 1, GL_FALSE, (*it)->mMatrix.constData());
+        (*it)->draw();
+    }
+
+    for (auto it=mCollisionObjects.begin(); it!= mCollisionObjects.end(); it++) {
         (*it)->draw();
     }
 
@@ -430,6 +448,13 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     {
         mMainWindow->close();
     }
+    if (event->key() == Qt::Key_R)
+    {
+        Sound* s = new Sound("ab");
+        s->Play("Explosion", "../SPIM-NUT/Assets/explosion.wav");
+        Sound* d = new Sound("ab");
+        d->Play("Explo", "../SPIM-NUT/Assets/Caravan_mono.wav");
+    }
 }
 
 void RenderWindow::keyReleaseEvent(QKeyEvent *event)
@@ -445,25 +470,29 @@ void RenderWindow::wheelEvent(QWheelEvent *event)
 
 void RenderWindow::Setup() {
 
-    mCamera2.SetPosition({250,500,150});
-    mCamera2.lookAt({250,250,0});
+    mCamera2.SetPosition({20,20,20});
+    mCamera2.lookAt({0,0,0});
+    mSphere->move(3,1,3);
 
 }
 
 void RenderWindow::ResetCamera()
 {
-    mCamera2.SetPosition({0,0,150});
-    mCamera2.lookAt({250,250,0});
+    mCamera2.SetPosition({20,20,0});
+    mCamera2.lookAt({0,0,0});
 }
 
 void RenderWindow::Tick(float deltaTime)
 {
+    mSphere->EvaluateSphereOnSphereCollision(mSphere2);
+    mSphere->EvaluateSphereOnPlaneCollision(mGround);
+    mSphere->move(-0.1 * 0.1,0,-0.1 * 0.1);
     for (auto p : mObjects) {
         //p->Tick(deltaTime);
 
     }
 
-    SoundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
+    //SoundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
 
 
     QVector3D AttemptedMovement;

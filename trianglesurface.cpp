@@ -5,8 +5,6 @@
 TriangleSurface::TriangleSurface()
 {
     CreateGraphVertices(myEquation);
-    WriteToFile("filnavn.txt");
-    ReadFromFile("filnavn.txt");
     mMatrix.setToIdentity();
 }
 
@@ -65,19 +63,19 @@ void TriangleSurface::init(GLint matrixUniform)
 void TriangleSurface::draw()
 {
     glBindVertexArray( mVAO );
-    glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
     glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
+    std::cout << mVertices.size() << std::endl;
 }
 
 float TriangleSurface::myEquation(float x, float y)
 {
-    return 0.5*cos(2*sqrt(pow(x, 2)+pow(y, 2))) - sqrt(x*x+y*y) * sqrt(x*x+y*y) * 0.015 + 0.5;
+    return 0;
 }
 
 void TriangleSurface::WriteToFile(std::string fileName)
 {
     std::ofstream file;
-    file.open("../SPIM/txt_files/"+fileName);
+    file.open("../SPIM-NUT/txt_files/"+fileName);
     if(file.is_open())
     {
         file << mVertices.size() << std::endl;
@@ -93,7 +91,7 @@ void TriangleSurface::WriteToFile(std::string fileName)
 void TriangleSurface::ReadFromFile(std::string fileName)
 {
     std::ifstream file;
-    file.open("../SPIM/txt_files/"+fileName);
+    file.open("../SPIM-NUT/txt_files/"+fileName);
     if (file.is_open())
     {
         int x{0};

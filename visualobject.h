@@ -5,6 +5,7 @@
 #include <QMatrix4x4>
 #include <vector>
 #include <string>
+#include "triangle.h"
 #include "vertex.h"
 
 class VisualObject : public QOpenGLFunctions_4_1_Core {
@@ -23,14 +24,17 @@ public:
     bool nameContains(std::string test){return mName.compare(test) == 1;};
     QMatrix4x4 mMatrix;
     QVector3D Barycentric(QVector3D object, QVector3D P1, QVector3D P2, QVector3D P3);
-    bool isOverlappingTriangle(QVector3D baryc, QVector3D P1, QVector3D P2, QVector3D P3);
+    bool isOverlappingTriangle(QVector3D baryc);
     float GetBarycentricHeight(QVector3D baryc, QVector3D P1, QVector3D P2, QVector3D P3);
+    QVector3D GetNormalFromPoints(const QVector3D &p1, const QVector3D &p2, const QVector3D &p3);
 protected:
     friend class InteractiveObject;
     std::vector<Vertex> mVertices;
     GLuint mVAO{0};
     GLuint mVBO{0};
     GLint mMatrixUniform{0};
+
+    std::vector<Triangle> mTriangles;
 
     QMatrix4x4 mRotation;
     QMatrix4x4 mPosition;

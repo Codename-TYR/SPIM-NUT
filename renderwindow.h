@@ -16,6 +16,7 @@
 #include "texture.h"
 #include "triangle.h"
 #include "xyz.h"
+#include "colliderbase.h"
 
 class QOpenGLContext;
 class Shader;
@@ -131,6 +132,7 @@ protected:
 private:
     QPoint mMouseHeldPosition;
     std::vector<VisualObject*> mObjects;
+    std::vector<ColliderBase*> mCollisionObjects;
 
     Triangle* triangle{nullptr};
 
@@ -141,6 +143,7 @@ private:
     Camera* mActiveCamera{nullptr};
     class Light *mLight{nullptr};
 
+
     //~~ JS Section
 private:
     // Does all the JavaScript setup
@@ -148,6 +151,11 @@ private:
     class QJSEngine* JSEngine;
 
     //~~ JS Section End
+
+
+    class PlaneCollider* mGround{nullptr};
+    class SphereCollider* mSphere{nullptr};
+    class SphereCollider* mSphere2{nullptr};
 
 };
 
