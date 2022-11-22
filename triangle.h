@@ -1,19 +1,15 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include <QOpenGLFunctions_4_1_Core>
-#include <vector>
-#include <QMatrix4x4>
-#include "visualobject.h"
+#include "vertex.h"
 
-class Triangle : public VisualObject
+class Triangle
 {
 public:
-    Triangle();
-    ~Triangle() override;
-
-    void init(GLint mat) override;
-    void draw() override;
+    Triangle(const Vertex &v1, const Vertex &v2, const Vertex &v3);
+    ~Triangle();
+    const Vertex* verts[3];
+    void SetVertices(const Vertex& v1, const Vertex& v2, const Vertex& v3);
 };
 
 #endif // TRIANGLE_H

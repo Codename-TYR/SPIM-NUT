@@ -15,16 +15,20 @@ win32 {
 
 SOURCES += main.cpp \
     camera.cpp \
+    colliderbase.cpp \
     light.cpp \
     logger.cpp \
     mainwindow.cpp \
     nutobject.cpp \
     octahedronball.cpp \
+    planecollider.cpp \
     renderwindow.cpp \
     shader.cpp \
     sound.cpp \
+    spherecollider.cpp \
     texture.cpp \
     triangle.cpp \
+    trianglecollider.cpp \
     trianglesurface.cpp \
     vertex.cpp \
     visualobject.cpp \
@@ -32,6 +36,7 @@ SOURCES += main.cpp \
     xyz.cpp
 
 HEADERS += \
+    colliderbase.h \
     light.h \
     camera.h \
     logger.h \
@@ -39,11 +44,14 @@ HEADERS += \
     nutobject.h \
     objloader.h \
     octahedronball.h \
+    planecollider.h \
     renderwindow.h \
     shader.h \
     sound.h \
+    spherecollider.h \
     texture.h \
     triangle.h \
+    trianglecollider.h \
     trianglesurface.h \
     vertex.h \
     visualobject.h \
