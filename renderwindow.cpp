@@ -181,7 +181,7 @@ void RenderWindow::SetupJS()
 {
     JSEngine = new QJSEngine;
 
-    QString JSScript_01 = "../SPIM/JS/TestScript_01.js";
+    QString JSScript_01 = "../SPIM-NUT/JS/TestScript_01.js";
 
     QFile scriptFile(JSScript_01);
 
