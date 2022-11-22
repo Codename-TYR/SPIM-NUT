@@ -1,4 +1,4 @@
-#ifndef FILEHANDLER_H
+    #ifndef FILEHANDLER_H
 #define FILEHANDLER_H
 
 #include <cstdint>    //does not work well on mac

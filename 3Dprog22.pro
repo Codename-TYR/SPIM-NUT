@@ -22,6 +22,7 @@ SOURCES += main.cpp \
     octahedronball.cpp \
     renderwindow.cpp \
     shader.cpp \
+    sound.cpp \
     src/soundmanager.cpp \
     src/soundsource.cpp \
     src/wavfilehandler.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
     octahedronball.h \
     renderwindow.h \
     shader.h \
+    sound.h \
     texture.h \
     triangle.h \
     trianglesurface.h \
