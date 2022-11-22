@@ -23,9 +23,6 @@ SOURCES += main.cpp \
     renderwindow.cpp \
     shader.cpp \
     sound.cpp \
-    src/soundmanager.cpp \
-    src/soundsource.cpp \
-    src/wavfilehandler.cpp \
     texture.cpp \
     triangle.cpp \
     trianglesurface.cpp \
@@ -35,9 +32,6 @@ SOURCES += main.cpp \
     xyz.cpp
 
 HEADERS += \
-    include/soundmanager.h \
-    include/soundsource.h \
-    include/wavfilehandler.h \
     light.h \
     camera.h \
     logger.h \
