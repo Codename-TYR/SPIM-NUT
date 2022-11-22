@@ -20,6 +20,8 @@
 #include "texture.h"
 #include "light.h"
 #include "soundmanager.h"
+#include "planecollider.h"
+#include "spherecollider.h"
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -41,7 +43,14 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     mRenderTimer = new QTimer(this);
 
+    mGround = new PlaneCollider({0,0,0}, {0,10,0}, {10,10,0}, {10,0,0});
+    mCollisionObjects.push_back(mGround);
 
+    mSphere = new SphereCollider();
+    mCollisionObjects.push_back(mSphere);
+
+    mSphere2 = new SphereCollider();
+    mCollisionObjects.push_back(mSphere2);
 }
 
 RenderWindow::~RenderWindow()
@@ -138,6 +147,11 @@ void RenderWindow::init()
         (*i)->init(mMatrixUniform0);
     }
 
+    for (auto i = mCollisionObjects.begin(); i != mCollisionObjects.end(); i++)
+    {
+        (*i)->init(mMatrixUniform0);
+    }
+
 
     mLight = new Light();
     mLight->init(2);
@@ -183,12 +197,15 @@ void RenderWindow::render()
      glUniform1f(mSpecularStrengthUniform, mLight->mSpecularStrenght);
 
 
-     glUseProgram(mShaderProgram[2]->getProgram());
-     mActiveCamera->update(pMatrixUniform2, vMatrixUniform2);
+     glUseProgram(mShaderProgram[0]->getProgram());
+     mActiveCamera->update(pMatrixUniform0, vMatrixUniform0);
 
     for (auto it=mObjects.begin(); it!= mObjects.end(); it++) {
-        glUniformMatrix4fv(mMatrixUniform2, 1, GL_FALSE, (*it)->mMatrix.constData());
-        glUniform1i(mTextureUniform2, 1);
+        glUniformMatrix4fv(mMatrixUniform0, 1, GL_FALSE, (*it)->mMatrix.constData());
+        (*it)->draw();
+    }
+
+    for (auto it=mCollisionObjects.begin(); it!= mCollisionObjects.end(); it++) {
         (*it)->draw();
     }
 
@@ -411,19 +428,23 @@ void RenderWindow::wheelEvent(QWheelEvent *event)
 
 void RenderWindow::Setup() {
 
-    mCamera2.SetPosition({250,500,150});
-    mCamera2.lookAt({250,250,0});
+    mCamera2.SetPosition({20,20,20});
+    mCamera2.lookAt({0,0,0});
+    mSphere->move(3,1,3);
 
 }
 
 void RenderWindow::ResetCamera()
 {
-    mCamera2.SetPosition({0,0,150});
-    mCamera2.lookAt({250,250,0});
+    mCamera2.SetPosition({20,20,0});
+    mCamera2.lookAt({0,0,0});
 }
 
 void RenderWindow::Tick(float deltaTime)
 {
+    mSphere->EvaluateSphereOnSphereCollision(mSphere2);
+    mSphere->EvaluateSphereOnPlaneCollision(mGround);
+    mSphere->move(-0.1 * 0.1,0,-0.1 * 0.1);
     for (auto p : mObjects) {
         //p->Tick(deltaTime);
 

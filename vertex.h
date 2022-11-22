@@ -20,6 +20,7 @@ private:
 
 public:
    // Constructors
+   void setColor(QVector3D clr);
    QVector3D GetXYZ();
    Vertex();
    Vertex(float x, float y, float z, float r, float g, float b);
