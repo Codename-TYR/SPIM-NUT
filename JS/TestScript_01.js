@@ -4,7 +4,7 @@
 
 function print1()
 {
-    return 1000001
+    return 2.3334333333333333333333333
 }
 
 function print2()

@@ -14,15 +14,22 @@ win32 {
 }
 
 SOURCES += main.cpp \
+    actor.cpp \
+    ballcomponent.cpp \
+    basecomponent.cpp \
     camera.cpp \
     colliderbase.cpp \
+    collisioncomponent.cpp \
     light.cpp \
     logger.cpp \
     mainwindow.cpp \
+    meshcomponent.cpp \
     nutobject.cpp \
     octahedronball.cpp \
     planecollider.cpp \
     renderwindow.cpp \
+    scriptcomponent.cpp \
+    scriptingcomponent.cpp \
     scriptreader.cpp \
     shader.cpp \
     sound.cpp \
@@ -37,16 +44,23 @@ SOURCES += main.cpp \
     xyz.cpp
 
 HEADERS += \
+    actor.h \
+    ballcomponent.h \
+    basecomponent.h \
     colliderbase.h \
+    collisioncomponent.h \
     light.h \
     camera.h \
     logger.h \
     mainwindow.h \
+    meshcomponent.h \
     nutobject.h \
     objloader.h \
     octahedronball.h \
     planecollider.h \
     renderwindow.h \
+    scriptcomponent.h \
+    scriptingcomponent.h \
     scriptreader.h \
     shader.h \
     sound.h \

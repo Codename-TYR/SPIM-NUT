@@ -18,6 +18,8 @@
 #include "xyz.h"
 #include "colliderbase.h"
 
+
+
 class QOpenGLContext;
 class Shader;
 class MainWindow;
@@ -150,8 +152,17 @@ private:
     void SetupJS();
     class QJSEngine* JSEngine;
 
+    class ScriptingComponent* ScriptingComponentRef {nullptr};
+
     //~~ JS Section End
 
+
+    //~~ New age of Components
+
+    void SetupActors();
+
+    class Actor* MeshActorTest {nullptr};
+    //~~ New age of Components
 
     class PlaneCollider* mGround{nullptr};
     class SphereCollider* mSphere{nullptr};

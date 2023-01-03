@@ -13,7 +13,8 @@ int main(int argc, char *argv[])
     //Makes the Qt MainWindow and shows it.
     MainWindow w;
     w.show();
-
+    //Resize the window for your own purposes, Harry
+    w.resize(1100, 600);
 
     int lel = a.exec();
 

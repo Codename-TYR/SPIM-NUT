@@ -14,6 +14,7 @@
 #include <chrono>
 #include <cmath>
 
+
 #include "shader.h"
 #include "mainwindow.h"
 #include "logger.h"
@@ -28,10 +29,22 @@
 
 //~~ Javascript Includes
 
-#include <QJSEngine>    //The script engine itself!
-#include <QFile>        //Reading from file
+#include <QJSEngine>                //The script engine itself!
+#include <QFile>                    //Reading from file
+#include "scriptingcomponent.h"     // Scripting Component
+
 
 //~~
+//~~ New age of Components
+
+#include "actor.h"
+#include "basecomponent.h"
+#include "meshcomponent.h"
+#include "collisioncomponent.h"
+#include "ballcomponent.h"
+#include "scriptcomponent.h"
+//~~ New age of Components
+
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -175,29 +188,46 @@ void RenderWindow::init()
 
     // Does all the JavaScript setup
     SetupJS();
+    SetupActors();
+
+}
+
+void RenderWindow::SetupActors()
+{
+    std::vector<Vertex> test;
+    test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+    MeshActorTest = new Actor();
+    MeshActorTest->AddComponent(new MeshComponent(test));
+
 }
 
 void RenderWindow::SetupJS()
 {
-    JSEngine = new QJSEngine;
 
-    QString JSScript_01 = "../SPIM-NUT/JS/TestScript_01.js";
+    ScriptingComponentRef = new ScriptingComponent(nullptr, "../SPIM-NUT/JS/TestScript_01.js");
 
-    QFile scriptFile(JSScript_01);
+//    JSEngine = new QJSEngine;
 
-    if (!scriptFile.open(QIODevice::ReadOnly))
-        qDebug() << "Error | RenderWindow::SetupJS() | File Not Found" << JSScript_01;
+//    QString JSScript_01 = "../SPIM-NUT/JS/TestScript_01.js";
 
-    QTextStream stream(&scriptFile);
-    QString contents = stream.readAll();
-    scriptFile.close();
+//    QFile scriptFile(JSScript_01);
 
-    JSEngine->evaluate(contents, JSScript_01);
+//    if (!scriptFile.open(QIODevice::ReadOnly))
+//        qDebug() << "Error | RenderWindow::SetupJS() | File Not Found" << JSScript_01;
 
-    QJSValue func1 = JSEngine->evaluate("print1");
-    QJSValue func1Result = func1.call();
-    int x = func1Result.toInt();
-    qDebug() << x;
+//    QTextStream stream(&scriptFile);
+//    QString contents = stream.readAll();
+//    scriptFile.close();
+
+//    JSEngine->evaluate(contents, JSScript_01);
+
+//    QJSValue func1 = JSEngine->evaluate("print1");
+//    QJSValue func1Result = func1.call();
+////    double x = func1Result.toInt();
+//    double x = func1Result.toNumber();
+////    int x = func1Result.toInt();
+////    float x = func1Result.toNumber();
+//    qDebug() << x;
 }
 
 void RenderWindow::render()
