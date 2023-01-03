@@ -20,11 +20,10 @@ void SoundComponent::Create(std::string filePath, std::string name)
 void Sound::Play(std::string name, std::string filePath)
 {
     //slett lyd hvis navnet du kjører har blitt kjørt allerede
-    if (soundManager::getInstance())
-    {
-    soundManager::getInstance()->clean();
-    }
-    soundManager::getInstance()->initialize();
+//    if (soundManager::getInstance())
+//    {
+//    soundManager::getInstance()->clean();
+//    }
 
     SoundComponent* sound{nullptr};
     sound = soundManager::getInstance()->createSource(name, QVector3D(10.0f,0.0f,0.0f),
