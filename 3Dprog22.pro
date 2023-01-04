@@ -14,6 +14,7 @@ win32 {
 }
 
 SOURCES += main.cpp \
+    boxcollider.cpp \
     camera.cpp \
     colliderbase.cpp \
     light.cpp \
@@ -37,6 +38,7 @@ SOURCES += main.cpp \
     xyz.cpp
 
 HEADERS += \
+    boxcollider.h \
     colliderbase.h \
     light.h \
     camera.h \

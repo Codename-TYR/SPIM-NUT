@@ -154,8 +154,8 @@ private:
 
 
     class PlaneCollider* mGround{nullptr};
-    class SphereCollider* mSphere{nullptr};
-    class SphereCollider* mSphere2{nullptr};
+    class BoxCollider* mBox{nullptr};
+    class BoxCollider* mBox2{nullptr};
 
 };
 

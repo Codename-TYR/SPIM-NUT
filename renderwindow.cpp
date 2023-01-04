@@ -23,7 +23,7 @@
 #include "light.h"
 #include "sound.h"
 #include "planecollider.h"
-#include "spherecollider.h"
+#include "boxcollider.h"
 
 
 //~~ Javascript Includes
@@ -56,11 +56,12 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     mGround = new PlaneCollider({0,0,0}, {0,10,0}, {10,10,0}, {10,0,0});
     mCollisionObjects.push_back(mGround);
 
-    mSphere = new SphereCollider();
-    mCollisionObjects.push_back(mSphere);
+    mBox = new BoxCollider({1,1,1}, {1,1,1});
+    mBox->mMatrix.rotate(45, {0,0,1});
+    mCollisionObjects.push_back(mBox);
 
-    mSphere2 = new SphereCollider();
-    mCollisionObjects.push_back(mSphere2);
+    mBox2 = new BoxCollider({3,3.5,1}, {1,1,1});
+    mCollisionObjects.push_back(mBox2);
 }
 
 RenderWindow::~RenderWindow()
@@ -472,7 +473,7 @@ void RenderWindow::Setup() {
 
     mCamera2.SetPosition({20,20,20});
     mCamera2.lookAt({0,0,0});
-    mSphere->move(3,1,3);
+    //mSphere->move(3,1,3);
 
 }
 
@@ -484,13 +485,15 @@ void RenderWindow::ResetCamera()
 
 void RenderWindow::Tick(float deltaTime)
 {
-    mSphere->EvaluateSphereOnSphereCollision(mSphere2);
-    mSphere->EvaluateSphereOnPlaneCollision(mGround);
-    mSphere->move(-0.1 * 0.1,0,-0.1 * 0.1);
+    //mSphere->EvaluateSphereOnSphereCollision(mSphere2);
+    //mSphere->EvaluateSphereOnPlaneCollision(mGround);
+    //mSphere->move(-0.1 * 0.1,0,-0.1 * 0.1);
     for (auto p : mObjects) {
         //p->Tick(deltaTime);
 
     }
+    mBox->SATCollisionCheck(mBox2);
+    mBox2->move(-0.1 * deltaTime, -0.1 * deltaTime, 0);
 
     //SoundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
 
