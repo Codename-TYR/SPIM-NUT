@@ -22,12 +22,12 @@ public:
     void Play(std::string name, std::string filePath);
     void Pause();
     void Stop();
-    void exist(std::string name);
+    bool exist(std::string name);
     std::vector<std::string> soundNames;
 
 private:
     unsigned int mSound;
-    bool existingSound = false;
+    bool firstRound = true;
 };
 
 class SoundComponent
@@ -46,6 +46,7 @@ public:
 
     void Create(std::string filePath, std::string name);
 
+    void followActor(QVector3D actor);
     void setPosition(QVector3D newPosition);
     QVector3D getPos()
     {
@@ -94,6 +95,7 @@ public:
     void clean();
 
     void updateListener(QVector3D position, QVector3D velocity, QVector3D direction, QVector3D up);
+    void followActor(QVector3D actorpos);
     SoundComponent* createSource(std::string name, QVector3D position, std::string filePath = "", bool loop = false, float gain = 1.0);
 private:
     soundManager();

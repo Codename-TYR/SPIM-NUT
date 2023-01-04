@@ -18,37 +18,51 @@ void SoundComponent::Create(std::string filePath, std::string name)
     mSounds[name] = sound;
 }
 
-void Sound::exist(std::string name)
+void SoundComponent::followActor(QVector3D actor)
 {
-    for (int i = 0; i < soundNames.size();i++)
+    //use in tick
+    float actorx, actory, actorz;
+    actorx = actor.x();
+    actory = actor.y();
+    actorz = actor.z();
+    QVector3D actorpos {actorx, actory, actorz};
+    setPosition(actorpos);
+}
+
+bool Sound::exist(std::string name)
+{
+    for (auto i = 0; i < soundNames.size();i++)
     {
         if (soundNames.at(i) == name)
         {
-            //soundNames.erase(soundNames.begin()+i);
-            existingSound = true;
-            break;
+            qDebug() << "samme navn:";
+            std::cout << soundNames.at(i) << " = " << name << std::endl;
+            soundNames.erase(soundNames.begin()+i);
+            return true;
         }
     }
-    existingSound = false;
+    return false;
 }
 
 void Sound::Play(std::string name, std::string filePath)
 {
-//    exist(name);
-//    if (existingSound)
-//    {
-//      qDebug() << "kjører";
-//      soundManager::getInstance()->clean();
-//      soundManager::getInstance()->initialize();
-//    }
+    if (firstRound)
+    {
+        soundManager::getInstance()->clean();
+        soundManager::getInstance()->initialize();
+        firstRound = false;
+    }
+
+    if (exist(name))
+    {
+      soundManager::getInstance()->clean();
+      soundManager::getInstance()->initialize();
+    }
+    soundNames.push_back(name);
     SoundComponent* sound{nullptr};
     sound = soundManager::getInstance()->createSource(name, QVector3D(10.0f,0.0f,0.0f),
                                                                  filePath, false,1.0f);
     sound->SoundComponent::Play(filePath);
-
-    std::cout << "size 1: " << soundNames.size() << std::endl;
-    soundNames.push_back(name);
-    std::cout << "size 2: " << soundNames.size() << std::endl;
 }
 
 void Sound::Pause()
@@ -170,7 +184,6 @@ bool SoundComponent::wavLoader(std::string filePath)
 
 void SoundComponent::Play(std::string sound)
 {
-    //mSounds[sound]; //må sjekke at sound finnes i mappet?
     alSourcePlay(mSource);
 }
 
@@ -323,6 +336,15 @@ void soundManager::updateListener(QVector3D position, QVector3D velocity, QVecto
     alListenerfv(AL_VELOCITY, velocityVector);
     alListenerfv(AL_ORIENTATION, orientationVector);
 }
+
+//void soundManager::followActor(QVector3D actorpos)
+//{
+//    float actorposition[3];
+//    actorposition[0] = actorpos.x();
+//    actorposition[1] = actorpos.y();
+//    actorposition[2] = actorpos.z();
+//    alSourcefv(mSource, AL_POSITION, actorposition);
+//}
 
 bool WavReader::wavLoader(std::string filePath, wave *wave_ptr)
 {
