@@ -22,9 +22,12 @@ public:
     void Play(std::string name, std::string filePath);
     void Pause();
     void Stop();
+    void exist(std::string name);
+    std::vector<std::string> soundNames;
 
 private:
-    unsigned int mSound;    
+    unsigned int mSound;
+    bool existingSound = false;
 };
 
 class SoundComponent

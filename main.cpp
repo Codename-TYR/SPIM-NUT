@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "soundmanager.h"
+#include "sound.h"
 #include <QApplication>
 #include "sound.h"
 
@@ -12,17 +12,16 @@ int main(int argc, char *argv[])
     //Makes a Qt application
     QApplication a(argc, argv);
 
-    SoundManager::getInstance()->init();
+    soundManager::getInstance()->initialize();
 
     //Makes the Qt MainWindow and shows it.
-    soundManager::getInstance()->initialize();
     MainWindow w;
     w.show();
 
 
     int lel = a.exec();
 
-    SoundManager::getInstance()->cleanUp();
+    soundManager::getInstance()->clean();
 
     return lel;
 }

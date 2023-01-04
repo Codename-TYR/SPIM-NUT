@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <qdebug.h>
 
 Sound::Sound(std::string filePath)
 {
@@ -17,18 +18,37 @@ void SoundComponent::Create(std::string filePath, std::string name)
     mSounds[name] = sound;
 }
 
+void Sound::exist(std::string name)
+{
+    for (int i = 0; i < soundNames.size();i++)
+    {
+        if (soundNames.at(i) == name)
+        {
+            //soundNames.erase(soundNames.begin()+i);
+            existingSound = true;
+            break;
+        }
+    }
+    existingSound = false;
+}
+
 void Sound::Play(std::string name, std::string filePath)
 {
-    //slett lyd hvis navnet du kjører har blitt kjørt allerede
-//    if (soundManager::getInstance())
+//    exist(name);
+//    if (existingSound)
 //    {
-//    soundManager::getInstance()->clean();
+//      qDebug() << "kjører";
+//      soundManager::getInstance()->clean();
+//      soundManager::getInstance()->initialize();
 //    }
-
     SoundComponent* sound{nullptr};
     sound = soundManager::getInstance()->createSource(name, QVector3D(10.0f,0.0f,0.0f),
-                                                            filePath, false,1.0f);
+                                                                 filePath, false,1.0f);
     sound->SoundComponent::Play(filePath);
+
+    std::cout << "size 1: " << soundNames.size() << std::endl;
+    soundNames.push_back(name);
+    std::cout << "size 2: " << soundNames.size() << std::endl;
 }
 
 void Sound::Pause()

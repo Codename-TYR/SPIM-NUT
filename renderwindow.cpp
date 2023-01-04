@@ -416,17 +416,10 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     }
     if (event->key() == Qt::Key_R)
     {
-<<<<<<< Updated upstream
         Sound* s = new Sound("ab");
-        s->Play("Explosion", "../SPIM/Assets/explosion.wav");
-        Sound* d = new Sound("ab");
-        d->Play("Explo", "../SPIM/Assets/Caravan_mono.wav");
-=======
-        static Sound* s = new Sound("ab");
         s->Play("Explosion", "../SPIM-NUT/Assets/explosion.wav");
-        static Sound* d = new Sound("ab");
+        Sound* d = new Sound("ab");
         d->Play("Explo", "../SPIM-NUT/Assets/Caravan_mono.wav");
->>>>>>> Stashed changes
     }
 }
 
