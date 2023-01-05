@@ -658,6 +658,12 @@ void RenderWindow::ResetCamera()
 
 void RenderWindow::Tick(float deltaTime)
 {
+//    MeshActorTest->mComponents
+    for (auto i : (MeshActorTest->mComponents))
+    {
+        i->ComponentTick(deltaTime);
+    }
+
     for (auto p : mObjects) {
         //p->Tick(deltaTime);
 

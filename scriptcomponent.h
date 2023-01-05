@@ -13,7 +13,7 @@ public:
     ScriptComponent(class QString fileName);
 
 
-    void ComponentTick(float deltaTime) override {};
+    void ComponentTick(float deltaTime) override;
     void DrawComponent() override {};
 
 
@@ -26,6 +26,9 @@ private:
     QString mJSFilePath;
 
     class JSScript* JSScriptObject {nullptr};
+
+    std::unordered_map<int, bool> CurrentInputsMap;
+
 
 public:
     QString GetJSFilePath() {return mJSFilePath;}

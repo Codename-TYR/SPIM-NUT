@@ -57,12 +57,9 @@ JSScript::JSScript(ScriptComponent* InComponent)
     {
         int testKey = i->first;
         bool test = i->second;
-//        tempString.append((std::string)testKey);
-//        tempString.append((static_cast<std::string>(testKey));
         tempString.append(std::to_string (testKey));
         tempString.append(std::to_string (test));
         tempString.append(" ");
-//        tempString.append(test);
     }
 
     args << tempString.c_str();

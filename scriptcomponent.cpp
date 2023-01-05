@@ -6,6 +6,7 @@
 #include <QJSEngine>    //The script engine itself!
 
 #include "jsscript.h"
+#include "renderwindow.h"
 
 
 ScriptComponent::ScriptComponent(QString fileName)
@@ -54,6 +55,48 @@ ScriptComponent::ScriptComponent(QString fileName)
 
 
     qDebug() << __FUNCTION__ " | Constructor | Ends";
+}
+
+void ScriptComponent::ComponentTick(float deltaTime)
+{
+    qDebug() << __FUNCTION__;
+
+    CurrentInputsMap = RenderWindow::GetCurrentInputsMap();
+
+    //Make a C++ variable to the function
+    QJSValue func = mEngine.evaluate("takeMap");
+//    and the arguments
+    QJSValueList args;
+//    Read in arguments: 3 is the first (a) 8.9 is the last (b)
+//    std::map<int, bool> inMap;
+//    inMap[0] = true;
+//    inMap[1] = false;
+//    inMap[2] = true;
+//    inMap[3] = false;
+
+    std::string tempString;
+
+    for (auto i = CurrentInputsMap.begin(); i != CurrentInputsMap.end(); i++)
+    {
+        int testKey = i->first;
+        bool test = i->second;
+        tempString.append(std::to_string (testKey));
+        tempString.append(",");
+        tempString.append(std::to_string (test));
+        tempString.append(" ");
+    }
+
+    args << tempString.c_str();
+//    Call the function and hold the return value
+    QJSValue result = func.call(args);
+//    Check the return value (toNumber() makes a double of it)
+//    float test = result.to();
+//    float test = result.toNumber();
+    qDebug() << result.toString() << "\n";
+//    qDebug() << result.toNumber() << "\n";
+
+
+
 }
 
 
