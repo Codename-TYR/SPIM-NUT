@@ -12,7 +12,10 @@ class ScriptComponent : public BaseComponent
 public:
     ScriptComponent(class QString fileName);
 
-    void ComponentTick() override;
+
+    void ComponentTick(float deltaTime) override {};
+
+
 
 private:
     void InitializeComponentType() override {ComponentType = EComponentType::ECT_ScriptComponent;}

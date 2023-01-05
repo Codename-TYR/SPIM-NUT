@@ -165,14 +165,17 @@ private:
     //~~ New age of Components
 
     void SetupActors();
+    class Actor* mActorTest;
+    class Actor* mWallTest;
+    class Actor* mBallTest;
+
+    std::vector<class CollisionComponent*> mAllWalls;
 
     class Actor* MeshActorTest {nullptr};
     //~~ New age of Components
 
-    class PlaneCollider* mGround{nullptr};
-    class SphereCollider* mSphere{nullptr};
-    class SphereCollider* mSphere2{nullptr};
 
+    void AssembleBoard(std::string fileName);
 };
 
 #endif // RENDERWINDOW_H

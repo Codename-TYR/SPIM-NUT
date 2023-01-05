@@ -14,9 +14,9 @@ ScriptingComponent::ScriptingComponent(QObject *parent, QString JSFileName)
 
     if (!ScriptFile.open(QIODevice::ReadOnly))
     {
-        qDebug() << "Error | " __FUNCTION__ " | File Not Found!";
+        //qDebug() << "Error | " _FUNCTION__ " | File Not Found!";
     }
-    qDebug() << "Debug | " __FUNCTION__ " | File Found!";
+    //qDebug() << "Debug | " __FUNCTION__ " | File Found!";
     QTextStream stream(&ScriptFile);
     QString contents = stream.readAll();
     ScriptFile.close();

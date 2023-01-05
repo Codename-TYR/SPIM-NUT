@@ -6,17 +6,8 @@ BaseComponent::BaseComponent()
 
 }
 
-BaseComponent::BaseComponent(Actor* InOwner)
-    :mOwner {InOwner}
+void BaseComponent::SetParent(Actor *newParent)
 {
+    mParentActor = newParent;
 
-}
-
-Actor *BaseComponent::GetOwner(BaseComponent *InChild)
-{
-    if (mOwner)
-    {
-        return mOwner;
-    }
-    return nullptr;
 }

@@ -1,11 +1,19 @@
 #include "meshcomponent.h"
+
+#include "actor.h"
+
 #include <QDebug>
+
 
 MeshComponent::MeshComponent(std::vector<Vertex> InVerteces)
 {
     InitializeComponentType();
     mVertices = InVerteces;
+
+    init(0);
+
 //    qDebug() << __FUNCTION__ ;
+
 }
 
 
@@ -56,5 +64,18 @@ void MeshComponent::draw()
 {
    glBindVertexArray( mVAO );
    glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
-   glDrawArrays(GL_LINES, 0, mVertices.size());
+   glDrawArrays(mDrawMethod, 0, mVertices.size());
+}
+
+void MeshComponent::DrawComponent()
+{
+    if (mParentActor != nullptr) {
+        mMatrix = mParentActor->mPosRotScale;
+    }
+    draw();
+}
+
+void MeshComponent::SetDrawMethod(DrawMethod method)
+{
+    mDrawMethod = method;
 }
