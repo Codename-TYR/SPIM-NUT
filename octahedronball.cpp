@@ -21,6 +21,7 @@ const QVector3D& v3)
    mVertices.push_back(v);
    v = Vertex{v3.x(), v3.y(), v3.z(), mColor.x(), mColor.y(), mColor.z()};
    mVertices.push_back(v);
+
     }
         else {
 

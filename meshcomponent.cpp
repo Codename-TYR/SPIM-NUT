@@ -1,9 +1,10 @@
 #include "meshcomponent.h"
-
+#include "actor.h"
 
 MeshComponent::MeshComponent(std::vector<Vertex> InVerteces)
 {
     mVertices = InVerteces;
+    init(0);
 }
 
 
@@ -54,5 +55,18 @@ void MeshComponent::draw()
 {
    glBindVertexArray( mVAO );
    glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
-   glDrawArrays(GL_LINES, 0, mVertices.size());
+   glDrawArrays(mDrawMethod, 0, mVertices.size());
+}
+
+void MeshComponent::DrawComponent()
+{
+    if (mParentActor != nullptr) {
+        mMatrix = mParentActor->mPosRotScale;
+    }
+    draw();
+}
+
+void MeshComponent::SetDrawMethod(DrawMethod method)
+{
+    mDrawMethod = method;
 }

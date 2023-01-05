@@ -8,7 +8,7 @@ class ScriptComponent : public BaseComponent
 public:
     ScriptComponent();
 
-    void ComponentTick() override {};
+    void ComponentTick(float deltaTime) override {};
 
 private:
     void InitializeComponentType() override {ComponentType = EComponentType::ECT_ScriptComponent;}

@@ -10,10 +10,13 @@ class BallComponent : public CollisionComponent
 public:
     BallComponent();
 
-    void ComponentTick() override {};
+    void ComponentTick(float deltaTime) override;
+    void DrawComponent() override;
+
+    void GiveAccessToWalls(std::vector<CollisionComponent*>* walls);
 
 private:
-    void InitializeComponentType() override {ComponentType = EComponentType::ECT_BallComponent;}
+    void InitializeComponentType() override;
 
 
 public:
@@ -23,9 +26,9 @@ public:
     void AddForce(QVector3D direction, float multiplier);
 
 private:
-    float mMass {0.0f};
+    float mMass {1.0f};
     QVector3D mVelocity;
-
+    std::vector<CollisionComponent*>* mAllWalls;
 
 
 };
