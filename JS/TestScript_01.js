@@ -22,7 +22,26 @@ function ActionMapping()
 {
     /*    ScriptComponent.SetInputBinding()*/
 
-    CppObject.scriptFunction(1);
+/*    Owner.scriptFunction(1);*/
+/*    return __FUNCTION__ "Action Mapping Function from JS";*/
+    return "Action Mapping Function from JS"
+}
+
+function Tick(inputs)
+{
+
+
+
+
+
+}
+
+
+function ActionMapping2()
+{
+    /*    ScriptComponent.SetInputBinding()*/
+
+/*    Owner.scriptFunction(1);*/
 /*    return __FUNCTION__ "Action Mapping Function from JS";*/
     return "Action Mapping Function from JS"
 }
@@ -39,6 +58,7 @@ function ActionMapping_Jump()
 function SetupInputBindings()
 {
     // test 1 - call a slot in the class:
-    Owner.signalOne.connect(ActionMapping);
-    CppObject.signalTwo.connect(ActionMapping);
+    Owner.signal_1.connect(ActionMapping);
+    Owner.signal_2.connect(ActionMapping2);
+/*    CppObject.signalTwo.connect(ActionMapping);*/
 }

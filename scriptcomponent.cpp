@@ -40,11 +40,49 @@ ScriptComponent::ScriptComponent(QString fileName)
     mEngine.globalObject().setProperty("Owner", objectTest);
 
     // Function that calls all the slot connecting
-    QJSValue cFunc = mEngine.evaluate("connectToSlots");
+    QJSValue cFunc = mEngine.evaluate("SetupInputBindings");
     cFunc.call();
 
 
     JSScriptObject->sendSignal();
+
+    //Make a C++ variable to the function
+    QJSValue func = mEngine.evaluate("takeMap");
+//    and the arguments
+    QJSValueList args;
+//    Read in arguments: 3 is the first (a) 8.9 is the last (b)
+    std::map<int, bool> inMap;
+    inMap[0] = true;
+    inMap[1] = false;
+    inMap[2] = true;
+    inMap[3] = false;
+
+    std::string tempString;
+
+    for (auto i = inMap.begin(); i != inMap.end(); i++)
+    {
+        int testKey = i->first;
+        bool test = i->second;
+//        tempString.append((std::string)testKey);
+//        tempString.append((static_cast<std::string>(testKey));
+        tempString.append(std::to_string (testKey));
+        tempString.append(std::to_string (test));
+        tempString.append(" ");
+//        tempString.append(test);
+    }
+
+    args << tempString.c_str();
+//    Call the function and hold the return value
+    QJSValue result = func.call(args);
+//    Check the return value (toNumber() makes a double of it)
+//    float test = result.to();
+//    float test = result.toNumber();
+    qDebug() << result.toString() << "\n";
+//    qDebug() << result.toNumber() << "\n";
+
+
+
+
 
 
 
