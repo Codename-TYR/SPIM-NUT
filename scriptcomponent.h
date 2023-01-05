@@ -14,7 +14,7 @@ public:
 
 
     void ComponentTick(float deltaTime) override {};
-
+    void DrawComponent() override {};
 
 
 private:
@@ -26,6 +26,10 @@ private:
     QString mJSFilePath;
 
     class JSScript* JSScriptObject {nullptr};
+
+public:
+    QString GetJSFilePath() {return mJSFilePath;}
+
 
 };
 

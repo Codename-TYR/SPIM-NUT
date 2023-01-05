@@ -37,6 +37,14 @@ function Tick(inputs)
 }
 
 
+function takeMap(a)
+{
+    /*    console.log(a)*/
+
+    return a
+}
+
+
 function ActionMapping2()
 {
     /*    ScriptComponent.SetInputBinding()*/

@@ -1,6 +1,7 @@
 #ifndef JSSCRIPT_H
 #define JSSCRIPT_H
 
+#include "qjsengine.h"
 #include <QObject>
 
 
@@ -10,21 +11,23 @@ class JSScript : public QObject
 
 //    Q_PROPERTY()
 
-//    ScriptComponent
+public:
+    //Constructor
+    JSScript(class ScriptComponent* InComponent);
 
+//    ScriptComponent
+private:
     std::unordered_map<int, bool> InputMap;
 
     void SignalVectorSetup();
 
-    mEngine
+    class ScriptComponent* mOwningComponent {nullptr};
+
+    QJSEngine mEngine;
 
     std::vector<std::function<void(JSScript*)>> SignalVector;
     std::vector<std::function<void(JSScript*)>> SignalTickVector;
-
 public:
-    //Constructor
-    JSScript();
-
     void sendSignal();
 
     void sendSignal_1();

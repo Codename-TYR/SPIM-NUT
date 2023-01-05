@@ -5,17 +5,38 @@
 
 #include "qjsvalue.h"
 #include "renderwindow.h"
+#include "scriptcomponent.h"
 //#include <function>
 
 
 
 
-JSScript::JSScript()
+JSScript::JSScript(ScriptComponent* InComponent)
+    :mOwningComponent{InComponent}/*, mEngine{InEngine}*/
 {
     InputMap = RenderWindow::GetCurrentInputsMap();
     qDebug() << __FUNCTION__ " | Constructor Begins";
 
 //    SignalVectorSetup();
+
+     QFile JSScriptFile(mOwningComponent->GetJSFilePath());
+
+
+    if (!(JSScriptFile).open(QIODevice::ReadOnly))
+    {
+        qDebug() << "Error | " __FUNCTION__ " | Failed to read file:" << mOwningComponent->GetJSFilePath();
+    }
+    else
+    {
+        // Reads the JS-ScriptFile
+        QTextStream JSstream(&JSScriptFile);
+        // Holds the contents of the JS-ScriptFile
+        QString JSContents = JSstream.readAll();
+
+        JSScriptFile.close();
+
+        mEngine.evaluate(JSContents, mOwningComponent->GetJSFilePath());
+    }
 
 
 
