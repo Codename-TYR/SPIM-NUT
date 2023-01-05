@@ -8,9 +8,12 @@
 #include <QStatusBar>
 #include <QDebug>
 
+
+
 #include <string>
 #include <chrono>
 #include <cmath>
+
 
 #include "shader.h"
 #include "mainwindow.h"
@@ -22,6 +25,27 @@
 #include "sound.h"
 #include "planecollider.h"
 #include "spherecollider.h"
+
+#include "meshgenerator.h"
+
+//~~ Javascript Includes
+
+#include <QJSEngine>                //The script engine itself!
+#include <QFile>                    //Reading from file
+#include "scriptingcomponent.h"     // Scripting Component
+
+
+//~~
+//~~ New age of Components
+
+#include "actor.h"
+#include "basecomponent.h"
+#include "meshcomponent.h"
+#include "collisioncomponent.h"
+#include "ballcomponent.h"
+#include "scriptcomponent.h"
+#include "octahedronball.h"
+//~~ New age of Components
 
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
@@ -43,15 +67,6 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     }
 
     mRenderTimer = new QTimer(this);
-
-    mGround = new PlaneCollider({0,0,0}, {0,10,0}, {10,10,0}, {10,0,0});
-    mCollisionObjects.push_back(mGround);
-
-    mSphere = new SphereCollider();
-    mCollisionObjects.push_back(mSphere);
-
-    mSphere2 = new SphereCollider();
-    mCollisionObjects.push_back(mSphere2);
 }
 
 RenderWindow::~RenderWindow()
@@ -142,13 +157,27 @@ void RenderWindow::init()
     mCamera2.init(pMatrixUniform0, vMatrixUniform0);
     mCamera2.perspective(60, (float)width()/(float)height(), 0.1, 1000.0);
 
+    mActorTest = new Actor;
+    CollisionComponent* actorCollider = new CollisionComponent;
+    actorCollider->SetAsSphereCollider(1);
+    mActorTest->AddComponent(actorCollider);
+
+    mActorTest->SetLocation({5,5,0});
+
+    mBallTest = new Actor;
+    BallComponent* ballcomponent = new BallComponent;
+    ballcomponent->GiveAccessToWalls(&mAllWalls);
+    mBallTest->AddComponent(ballcomponent);
+    std::vector<Vertex> ballMesh = OctahedronBall::oktaederUnitBall(3, {0.5,0.5,0.5}, 0.25);
+    MeshComponent* meshcomponent = new MeshComponent(ballMesh);
+    mBallTest->AddComponent(meshcomponent);
+    mBallTest->SetLocation({0,0,5});
+
+    AssembleBoard("board.txt");
+
+
 
     for (auto i = mObjects.begin(); i != mObjects.end(); i++)
-    {
-        (*i)->init(mMatrixUniform0);
-    }
-
-    for (auto i = mCollisionObjects.begin(); i != mCollisionObjects.end(); i++)
     {
         (*i)->init(mMatrixUniform0);
     }
@@ -168,6 +197,61 @@ void RenderWindow::init()
 
     mLight->orbit(0.1f);
 
+    // Does all the JavaScript setup
+    SetupJS();
+    SetupActors();
+
+}
+
+void RenderWindow::SetupActors()
+{
+    //std::vector<Vertex> test;
+    //test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+    //MeshActorTest = new Actor();
+    //MeshActorTest->AddComponent(new MeshComponent(MeshGenerator::Octahedron(3)));
+    //MeshActorTest->AddComponent(new ScriptComponent("../SPIM-NUT/JS/TestScript_01.js"));
+//    MeshActorTest->AddComponent(new MeshComponent(test));
+//    MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent)->init
+    //MeshComponent* temp = dynamic_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
+    //temp->init(mMatrixUniform0);
+    //mObjects.push_back(temp);
+
+//    MeshActorTest->AddComponent(new ScriptComponent())
+
+//    MeshComponent* temp = static_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
+//      static_cast<MeshComponent*>(MeshActorTest->mComponents.front())->init(mMatrixUniform0);
+//      static_cast<MeshComponent*>(MeshActorTest->mComponents.front();
+//    temp->init(mMatrixUniform0);
+//    mObjects.push_back(static_cast<MeshComponent*>(MeshActorTest->mComponents.front()));
+}
+
+void RenderWindow::SetupJS()
+{
+
+//    ScriptingComponentRef = new ScriptingComponent(nullptr, "../SPIM-NUT/JS/TestScript_01.js");
+
+//    JSEngine = new QJSEngine;
+
+//    QString JSScript_01 = "../SPIM-NUT/JS/TestScript_01.js";
+
+//    QFile scriptFile(JSScript_01);
+
+//    if (!scriptFile.open(QIODevice::ReadOnly))
+//        qDebug() << "Error | RenderWindow::SetupJS() | File Not Found" << JSScript_01;
+
+//    QTextStream stream(&scriptFile);
+//    QString contents = stream.readAll();
+//    scriptFile.close();
+
+//    JSEngine->evaluate(contents, JSScript_01);
+
+//    QJSValue func1 = JSEngine->evaluate("print1");
+//    QJSValue func1Result = func1.call();
+////    double x = func1Result.toInt();
+//    double x = func1Result.toNumber();
+////    int x = func1Result.toInt();
+////    float x = func1Result.toNumber();
+//    qDebug() << x;
 }
 
 void RenderWindow::render()
@@ -214,11 +298,130 @@ void RenderWindow::render()
         (*it)->draw();
     }
 
+    mWallTest->Draw();
+    mBallTest->Draw();
+
     calculateFramerate();
 
     checkForGLerrors();
 
     mContext->swapBuffers(this);
+}
+
+std::vector<Vertex> createBoxVertices(QVector3D position, QVector3D color) {
+    std::vector<Vertex> boxvertices;
+
+    boxvertices.push_back(Vertex(position + QVector3D{0,0,0},   color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 0}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 1, 0}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{0,0,1},   color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 1}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 1, 1}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{0, 0, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 0, 1}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 0, 1}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 1, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 1, 1}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{1, 1, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 1, 0}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{0, 0, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{0, 0, 1}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{0, 0, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 1}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 1, 0}, color));
+
+    boxvertices.push_back(Vertex(position + QVector3D{1, 0, 1}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 1, 0}, color));
+    boxvertices.push_back(Vertex(position + QVector3D{1, 1, 1}, color));
+
+    return boxvertices;
+}
+
+void RenderWindow::AssembleBoard(std::string fileName)
+{
+    std::ifstream file;
+    file.open("../SPIM-NUT/txt_files/"+fileName);
+    if (file.is_open())
+    {
+        std::vector<std::string> lines;
+
+        while (!file.eof()) {
+            std::string line;
+            getline(file, line);
+
+            if (!line.empty()) {
+                lines.push_back(line);
+            }
+        }
+
+        mWallTest = new Actor;
+
+        int rows = lines[0].size();
+        int colums = lines.size();
+
+
+        for (unsigned int i = 0; i < lines.size(); i++) {
+            for (unsigned int y = 0; y < lines[i].size(); y++) {
+                char tile = lines[i][y];
+                float row = (rows / 2.f) - y;
+                float column = i - (colums / 2.f);
+
+                if (tile == 'H') continue;
+                else if (tile == 'E') {
+                    CollisionComponent* wallCollider = new CollisionComponent;
+                    wallCollider->SetAsBoxCollider({row,column,-1}, {1,1,1});
+                    mWallTest->AddComponent(wallCollider);
+                    mAllWalls.push_back(wallCollider);
+                    MeshComponent* mesh = new MeshComponent(createBoxVertices({row,column,-1}, {0.5,0.33,0.22}));
+                    mWallTest->AddComponent(mesh);
+
+                }
+                else if (tile == 'W') {
+                    CollisionComponent* wallCollider = new CollisionComponent;
+                    wallCollider->SetAsBoxCollider({row,column,-1}, {1,1,1});
+                    mWallTest->AddComponent(wallCollider);
+                    mAllWalls.push_back(wallCollider);
+                    MeshComponent* mesh = new MeshComponent(createBoxVertices({row,column,-1}, {0.5,0.33,0.22}));
+                    mWallTest->AddComponent(mesh);
+
+
+                    wallCollider = new CollisionComponent;
+                    wallCollider->SetAsBoxCollider({row,column,0}, {1,1,1});
+                    mWallTest->AddComponent(wallCollider);
+                    mAllWalls.push_back(wallCollider);
+                    mesh = new MeshComponent(createBoxVertices({row,column,0}, {0.73, 0.55, 0.39}));
+                    mWallTest->AddComponent(mesh);
+                }
+
+            }
+        }
+        file.close();
+    }
 }
 
 void RenderWindow::setupPlainShader(int shaderIndex)
@@ -255,12 +458,18 @@ void RenderWindow::setupPhongShader(int shaderIndex)
 
 void RenderWindow::exposeEvent(QExposeEvent *)
 {
+
+    mCamera2.perspective(60, (float)width()/(float)height(), 0.1, 1000.0);
+
+
     if (!mInitialized)
         init();
 
     const qreal retinaScale = devicePixelRatio();
 
     glViewport(0, 0, static_cast<GLint>(width() * retinaScale), static_cast<GLint>(height() * retinaScale));
+
+
 
     if (isExposed())
     {
@@ -420,17 +629,20 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     }
     if (event->key() == Qt::Key_R)
     {
+
         s->Play("Explosion", "../SPIM-NUT/Assets/explosion.wav", comp->getPos());
     }
     if (event->key() == Qt::Key_F)
     {
         d->Play("Caravan", "../SPIM-NUT/Assets/Caravan_mono.wav", comp->getPos());
+
     }
 }
 
 void RenderWindow::keyReleaseEvent(QKeyEvent *event)
 {
     mCurrentInputs[event->key()] = false;
+    std::cout << event->key() << std::endl;
 
 }
 
@@ -443,7 +655,6 @@ void RenderWindow::Setup() {
 
     mCamera2.SetPosition({20,20,20});
     mCamera2.lookAt({0,0,0});
-    mSphere->move(3,1,3);
 
 }
 
@@ -455,16 +666,32 @@ void RenderWindow::ResetCamera()
 
 void RenderWindow::Tick(float deltaTime)
 {
-    mSphere->EvaluateSphereOnSphereCollision(mSphere2);
-    mSphere->EvaluateSphereOnPlaneCollision(mGround);
-    mSphere->move(-0.1 * 0.1,0,-0.1 * 0.1);
     for (auto p : mObjects) {
         //p->Tick(deltaTime);
 
     }
     soundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
 
-    //comp->followActor(mLight->getPosition());
+
+    if (mCurrentInputs[Qt::Key_Up]) {
+        mWallTest->Rotate(10 * deltaTime, {1,0,0});
+    }
+    if (mCurrentInputs[Qt::Key_Down]) {
+        mWallTest->Rotate(10 * deltaTime, {-1,0,0});
+    }
+    if (mCurrentInputs[Qt::Key_Left]) {
+        mWallTest->Rotate(10 * deltaTime, {0,1,0});
+    }
+    if (mCurrentInputs[Qt::Key_Right]) {
+        mWallTest->Rotate(10 * deltaTime, {0,-1,0});
+    }
+
+
+    //SoundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
+    mActorTest->Tick(deltaTime);
+    mWallTest->Tick(deltaTime);
+    mBallTest->Tick(deltaTime);
+
 
     QVector3D AttemptedMovement;
     if (mCurrentInputs[Qt::Key_W]) {

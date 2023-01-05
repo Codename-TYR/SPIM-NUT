@@ -1,4 +1,4 @@
-QT          += core gui widgets opengl
+QT          += core gui widgets opengl qml
 
 TEMPLATE    = app
 CONFIG      += c++17
@@ -14,15 +14,25 @@ win32 {
 }
 
 SOURCES += main.cpp \
+    actor.cpp \
+    ballcomponent.cpp \
+    basecomponent.cpp \
     camera.cpp \
     colliderbase.cpp \
+    collisioncomponent.cpp \
+    jsscript.cpp \
     light.cpp \
     logger.cpp \
     mainwindow.cpp \
+    meshcomponent.cpp \
+    meshgenerator.cpp \
     nutobject.cpp \
     octahedronball.cpp \
     planecollider.cpp \
     renderwindow.cpp \
+    scriptcomponent.cpp \
+    scriptingcomponent.cpp \
+    scriptreader.cpp \
     shader.cpp \
     sound.cpp \
     spherecollider.cpp \
@@ -36,16 +46,26 @@ SOURCES += main.cpp \
     xyz.cpp
 
 HEADERS += \
+    actor.h \
+    ballcomponent.h \
+    basecomponent.h \
     colliderbase.h \
+    collisioncomponent.h \
+    jsscript.h \
     light.h \
     camera.h \
     logger.h \
     mainwindow.h \
+    meshcomponent.h \
+    meshgenerator.h \
     nutobject.h \
     objloader.h \
     octahedronball.h \
     planecollider.h \
     renderwindow.h \
+    scriptcomponent.h \
+    scriptingcomponent.h \
+    scriptreader.h \
     shader.h \
     sound.h \
     spherecollider.h \
@@ -62,6 +82,7 @@ FORMS += \
     mainwindow.ui
 
 DISTFILES += \
+    JS/TestScript_01.js \
     phongshader.frag \
     phongshader.vert \
     plainshader.frag \

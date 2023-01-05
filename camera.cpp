@@ -34,7 +34,7 @@ void Camera::init(GLint pMatrixUniform, GLint vMatrixUniform)
 
 void Camera::perspective(float degrees, double aspect, double nearplane, double farplane)
 {
-
+    mPmatrix.setToIdentity();
     mPmatrix.perspective(degrees, aspect, nearplane, farplane);
     //mPmatrix.frustum(-1, 1, -1, 1, 1, 100);
 }

@@ -19,6 +19,8 @@
 #include "colliderbase.h"
 #include "sound.h"
 
+
+
 class QOpenGLContext;
 class Shader;
 class MainWindow;
@@ -144,6 +146,7 @@ private:
     Camera* mActiveCamera{nullptr};
     class Light *mLight{nullptr};
 
+
     class PlaneCollider* mGround{nullptr};
     class SphereCollider* mSphere{nullptr};
     class SphereCollider* mSphere2{nullptr};
@@ -151,6 +154,34 @@ private:
     class Sound* s{nullptr};
     class Sound* d{nullptr};
     class SoundComponent* comp{nullptr};
+
+
+    //~~ JS Section
+private:
+    // Does all the JavaScript setup
+    void SetupJS();
+    class QJSEngine* JSEngine;
+
+    class ScriptingComponent* ScriptingComponentRef {nullptr};
+
+    //~~ JS Section End
+
+
+    //~~ New age of Components
+
+    void SetupActors();
+    class Actor* mActorTest;
+    class Actor* mWallTest;
+    class Actor* mBallTest;
+
+    std::vector<class CollisionComponent*> mAllWalls;
+
+    class Actor* MeshActorTest {nullptr};
+    //~~ New age of Components
+
+
+    void AssembleBoard(std::string fileName);
+
 };
 
 #endif // RENDERWINDOW_H
