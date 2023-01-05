@@ -15,7 +15,7 @@ public:
     void ComponentTick() override {};
 
 private:
-    void InitializeComponentType() override {ComponentType = EComponentType::ECT_MeshComponent;};
+    void InitializeComponentType() override {ComponentType = EComponentType::ECT_MeshComponent;}
 
 
 };

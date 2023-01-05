@@ -1,9 +1,11 @@
 #include "meshcomponent.h"
-
+#include <QDebug>
 
 MeshComponent::MeshComponent(std::vector<Vertex> InVerteces)
 {
+    InitializeComponentType();
     mVertices = InVerteces;
+//    qDebug() << __FUNCTION__ ;
 }
 
 

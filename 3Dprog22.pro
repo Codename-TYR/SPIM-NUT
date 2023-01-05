@@ -20,10 +20,12 @@ SOURCES += main.cpp \
     camera.cpp \
     colliderbase.cpp \
     collisioncomponent.cpp \
+    jsscript.cpp \
     light.cpp \
     logger.cpp \
     mainwindow.cpp \
     meshcomponent.cpp \
+    meshgenerator.cpp \
     nutobject.cpp \
     octahedronball.cpp \
     planecollider.cpp \
@@ -49,11 +51,13 @@ HEADERS += \
     basecomponent.h \
     colliderbase.h \
     collisioncomponent.h \
+    jsscript.h \
     light.h \
     camera.h \
     logger.h \
     mainwindow.h \
     meshcomponent.h \
+    meshgenerator.h \
     nutobject.h \
     objloader.h \
     octahedronball.h \

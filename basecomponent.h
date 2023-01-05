@@ -11,6 +11,7 @@ class BaseComponent
 {
 public:
     BaseComponent();
+    BaseComponent(class Actor* InOwner);
 
     virtual void ComponentTick() = 0;
 
@@ -21,9 +22,18 @@ public:
 protected:
     EComponentType ComponentType {EComponentType::ECT_None};
 
+
 public:
     EComponentType GetComponentType() {return ComponentType;}
 
+
+protected:
+    class Actor* GetOwner(BaseComponent* InChild);
+
+//    void SetOwner(class Actor* )
+
+private:
+    Actor* mOwner {nullptr};
 };
 
 #endif // BASECOMPONENT_H

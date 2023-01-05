@@ -26,6 +26,7 @@
 #include "planecollider.h"
 #include "spherecollider.h"
 
+#include "meshgenerator.h"
 
 //~~ Javascript Includes
 
@@ -197,14 +198,27 @@ void RenderWindow::SetupActors()
     std::vector<Vertex> test;
     test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
     MeshActorTest = new Actor();
-    MeshActorTest->AddComponent(new MeshComponent(test));
+    MeshActorTest->AddComponent(new MeshComponent(MeshGenerator::Octahedron(3)));
+    MeshActorTest->AddComponent(new ScriptComponent("../SPIM-NUT/JS/TestScript_01.js"));
+//    MeshActorTest->AddComponent(new MeshComponent(test));
+//    MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent)->init
+    MeshComponent* temp = dynamic_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
+    temp->init(mMatrixUniform0);
+    mObjects.push_back(temp);
 
+//    MeshActorTest->AddComponent(new ScriptComponent())
+
+//    MeshComponent* temp = static_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
+//      static_cast<MeshComponent*>(MeshActorTest->mComponents.front())->init(mMatrixUniform0);
+//      static_cast<MeshComponent*>(MeshActorTest->mComponents.front();
+//    temp->init(mMatrixUniform0);
+//    mObjects.push_back(static_cast<MeshComponent*>(MeshActorTest->mComponents.front()));
 }
 
 void RenderWindow::SetupJS()
 {
 
-    ScriptingComponentRef = new ScriptingComponent(nullptr, "../SPIM-NUT/JS/TestScript_01.js");
+//    ScriptingComponentRef = new ScriptingComponent(nullptr, "../SPIM-NUT/JS/TestScript_01.js");
 
 //    JSEngine = new QJSEngine;
 

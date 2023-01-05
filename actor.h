@@ -14,6 +14,7 @@ private:
     class QVector3D mPosition;
     class QVector3D mRotation;
 
+public:
     std::vector<class BaseComponent*> mComponents;
 
 public:
