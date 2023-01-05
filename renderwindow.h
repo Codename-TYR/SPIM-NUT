@@ -17,6 +17,7 @@
 #include "triangle.h"
 #include "xyz.h"
 #include "colliderbase.h"
+#include "sound.h"
 
 
 
@@ -146,6 +147,15 @@ private:
     class Light *mLight{nullptr};
 
 
+    class PlaneCollider* mGround{nullptr};
+    class SphereCollider* mSphere{nullptr};
+    class SphereCollider* mSphere2{nullptr};
+
+    class Sound* s{nullptr};
+    class Sound* d{nullptr};
+    class SoundComponent* comp{nullptr};
+
+
     //~~ JS Section
 private:
     // Does all the JavaScript setup
@@ -171,6 +181,7 @@ private:
 
 
     void AssembleBoard(std::string fileName);
+
 };
 
 #endif // RENDERWINDOW_H

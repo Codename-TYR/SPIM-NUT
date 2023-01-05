@@ -3,32 +3,56 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <qdebug.h>
 
-Sound::Sound(std::string filePath)
+Sound::Sound()
 {
-    //push inn i map?
-    //mExplosionSound = SoundManager::getInstance()->createSource(navn, this.xyz,
-    //filePath,false,1.0f);
+
 }
 
-void SoundComponent::Create(std::string filePath, std::string name)
+void SoundComponent::followActor(QVector3D actor)
 {
-    Sound* sound = new Sound(filePath);
-    mSounds[name] = sound;
+    float actorx, actory, actorz;
+    actorx = actor.x();
+    actory = actor.y();
+    actorz = actor.z();
+    QVector3D actorpos {actorx, actory, actorz};
+    setPosition(actorpos);
 }
 
-void Sound::Play(std::string name, std::string filePath)
+bool Sound::exist(std::string name)
 {
-    //slett lyd hvis navnet du kjører har blitt kjørt allerede
-    if (soundManager::getInstance())
+    for (auto i = 0; i < soundNames.size();i++)
     {
-    soundManager::getInstance()->clean();
+        if (soundNames.at(i) == name)
+        {
+            qDebug() << "samme navn:";
+            std::cout << soundNames.at(i) << " = " << name << std::endl;
+            soundNames.erase(soundNames.begin()+i);
+            return true;
+        }
     }
-    soundManager::getInstance()->initialize();
+    return false;
+}
 
+void Sound::Play(std::string name, std::string filePath, QVector3D actor)
+{
+    if (firstRound)
+    {
+        soundManager::getInstance()->clean();
+        soundManager::getInstance()->initialize();
+        firstRound = false;
+    }
+
+    if (exist(name))
+    {
+      soundManager::getInstance()->clean();
+      soundManager::getInstance()->initialize();
+    }
+
+    soundNames.push_back(name);
     SoundComponent* sound{nullptr};
-    sound = soundManager::getInstance()->createSource(name, QVector3D(10.0f,0.0f,0.0f),
-                                                            filePath, false,1.0f);
+    sound = soundManager::getInstance()->createSource(name, actor, filePath, false,1.0f);
     sound->SoundComponent::Play(filePath);
 }
 
@@ -151,7 +175,6 @@ bool SoundComponent::wavLoader(std::string filePath)
 
 void SoundComponent::Play(std::string sound)
 {
-    //mSounds[sound]; //må sjekke at sound finnes i mappet?
     alSourcePlay(mSource);
 }
 
@@ -378,3 +401,4 @@ bool WavReader::checkForError(std::string errorMessage)
     std::cout << errorMessage;
     return false;
 }
+
