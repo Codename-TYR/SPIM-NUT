@@ -470,7 +470,6 @@ void RenderWindow::Tick(float deltaTime)
     if (mCurrentInputs[Qt::Key_W]) {
         auto dir = mActiveCamera->Forward();
         AttemptedMovement += dir;
-        qDebug() << "pos: " << mActiveCamera->GetPosition() << "\n";
     }
     if (mCurrentInputs[Qt::Key_S]) {
         auto dir = mActiveCamera->Forward();
