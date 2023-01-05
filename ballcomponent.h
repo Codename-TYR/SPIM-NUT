@@ -18,6 +18,10 @@ public:
 private:
     void InitializeComponentType() override;
 
+    class Sound* s{nullptr};
+
+    float mTimeSincePlayedSound{0.f};
+
 
 public:
     QVector3D GetVelocity();

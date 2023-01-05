@@ -671,7 +671,7 @@ void RenderWindow::Tick(float deltaTime)
 
     }
     soundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
-
+    comp->followActor(mBallTest->GetPosition());
 
     if (mCurrentInputs[Qt::Key_Up]) {
         mWallTest->Rotate(10 * deltaTime, {1,0,0});

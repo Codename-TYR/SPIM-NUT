@@ -146,11 +146,6 @@ private:
     Camera* mActiveCamera{nullptr};
     class Light *mLight{nullptr};
 
-
-    class PlaneCollider* mGround{nullptr};
-    class SphereCollider* mSphere{nullptr};
-    class SphereCollider* mSphere2{nullptr};
-
     class Sound* s{nullptr};
     class Sound* d{nullptr};
     class SoundComponent* comp{nullptr};

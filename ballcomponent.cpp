@@ -1,23 +1,29 @@
 #include "ballcomponent.h"
 #include "actor.h"
+#include "sound.h"
 
 BallComponent::BallComponent()
 {
     CollisionVolumeType = ECollisionVolume ::ECV_Sphere;
     InitializeComponentType();
     SetAsSphereCollider(0.25);
+    s = new Sound();
 }
 
 void BallComponent::OnCollideWithWall(float force) {
-    if (force < 0.4f) return;
+    if (force < 0.8f) return;
+    if (mTimeSincePlayedSound < 0.25f) return;
+    mTimeSincePlayedSound = 0;
     force = std::min(force, 1.f);
 
+    s->Play("Laser", "../SPIM-NUT/Assets/laser.wav", GetPosition());
 
     //spill av lyd her, force kan være volumet kanskje?
 }
 
 void BallComponent::ComponentTick(float deltaTime)
 {
+    mTimeSincePlayedSound += deltaTime;
     mParentActor->mPosRotScale.translate(mVelocity * deltaTime);
 
     for (unsigned int i = 0; i < mAllWalls->size(); i++) {
