@@ -4,24 +4,24 @@
 
 JSScript::JSScript()
 {
-    qDebug() << __FUNCTION__ " | Constructor Begins";
+    qDebug() << "JSScript | Constructor Begins";
 
-    qDebug() << __FUNCTION__ " | Constructor Ends";
+    qDebug() << "JSScript| Constructor Ends";
 }
 
 void JSScript::sendSignal()
 {
-    qDebug() << __FUNCTION__ " | Begins";
+    qDebug() << "sendSignal | Begins";
     emit signal_1();
-    qDebug() << __FUNCTION__ " | Ends";
+    qDebug() << "sendSignal | Ends";
 //    emit signalTwo();
 }
 
 void JSScript::scriptFunction(float in)
 {
-    qDebug() << __FUNCTION__ " | Begins";
+    qDebug() << "scriptFunction | Begins";
     qDebug() << in;
 
-    qDebug() << __FUNCTION__ " | Ends";
+    qDebug() << "scriptFunction | Ends";
 
 }

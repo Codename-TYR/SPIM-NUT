@@ -22,15 +22,19 @@ private:
 public:
     QVector3D GetVelocity();
 
+
     void AddForce(QVector3D force);
     void AddForce(QVector3D direction, float multiplier);
 
+    void OnCollideWithWall(float force);
+    QVector3D GetPosition();
 private:
     float mMass {1.0f};
     QVector3D mVelocity;
     std::vector<CollisionComponent*>* mAllWalls;
 
 
+    void ForceMovement(QVector3D movement);
 };
 
 #endif // BALLCOMPONENT_H

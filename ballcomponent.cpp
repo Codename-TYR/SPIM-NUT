@@ -8,6 +8,14 @@ BallComponent::BallComponent()
     SetAsSphereCollider(0.25);
 }
 
+void BallComponent::OnCollideWithWall(float force) {
+    if (force < 0.4f) return;
+    force = std::min(force, 1.f);
+
+
+    //spill av lyd her, force kan være volumet kanskje?
+}
+
 void BallComponent::ComponentTick(float deltaTime)
 {
     mParentActor->mPosRotScale.translate(mVelocity * deltaTime);
@@ -15,8 +23,11 @@ void BallComponent::ComponentTick(float deltaTime)
     for (unsigned int i = 0; i < mAllWalls->size(); i++) {
             CollisionEvent collisionEvent = CollisionComponent::IsSphereCollidingWithBox(this, mAllWalls->at(i));
             if (collisionEvent.isCollision) {
+                QVector3D oldVelocity = mVelocity;
                 mVelocity = mVelocity - 2 * (QVector3D::dotProduct(mVelocity, collisionEvent.direction)) * collisionEvent.direction * 0.1;
-                mVelocity = mVelocity + (collisionEvent.direction * collisionEvent.distance) / (deltaTime * 2) ;
+                //mVelocity = mVelocity + (collisionEvent.direction * collisionEvent.distance) / (deltaTime) ;
+                ForceMovement(collisionEvent.direction * collisionEvent.distance);
+                OnCollideWithWall(oldVelocity.lengthSquared() - mVelocity.lengthSquared());
             }
     }
 
@@ -29,6 +40,17 @@ void BallComponent::DrawComponent()
 
 }
 
+QVector3D BallComponent::GetPosition()
+{
+    auto pos = mParentActor->mPosRotScale.column(3);
+    return QVector3D{pos.x(), pos.y(), pos.z()};
+}
+
+void BallComponent::ForceMovement(QVector3D movement)
+{
+    mParentActor->mPosRotScale.translate(movement);
+}
+
 void BallComponent::GiveAccessToWalls(std::vector<CollisionComponent *> *walls)
 {
     mAllWalls = walls;
@@ -37,6 +59,11 @@ void BallComponent::GiveAccessToWalls(std::vector<CollisionComponent *> *walls)
 void BallComponent::InitializeComponentType()
 {
     ComponentType = EComponentType::ECT_BallComponent;
+}
+
+QVector3D BallComponent::GetVelocity()
+{
+    return mVelocity;
 }
 
 void BallComponent::AddForce(QVector3D force)

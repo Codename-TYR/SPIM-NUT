@@ -13,7 +13,8 @@ public:
     ScriptComponent(class QString fileName);
 
 
-    void ComponentTick(float deltaTime) override {};
+    void ComponentTick(float deltaTime) override;
+    void DrawComponent() override {};
 
 
 

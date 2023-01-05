@@ -11,7 +11,7 @@
 ScriptComponent::ScriptComponent(QString fileName)
     :mJSFilePath{fileName}
 {
-    qDebug() << __FUNCTION__ " | Constructor | Begins";
+    qDebug() << "ScriptComponent | Constructor | Begins";
     InitializeComponentType();
 
     // QFile holds the relevant JS-File for reading
@@ -19,7 +19,7 @@ ScriptComponent::ScriptComponent(QString fileName)
 
     if (!JSScriptFile.open(QIODevice::ReadOnly))
     {
-        qDebug() << "Error | " __FUNCTION__ " | Failed to read file:" << fileName;
+        qDebug() << "Error | ScriptComponent | Failed to read file:" << fileName;
     }
     else
     {
@@ -48,10 +48,10 @@ ScriptComponent::ScriptComponent(QString fileName)
 
 
 
-    qDebug() << __FUNCTION__ " | Constructor | Ends";
+    qDebug() << "ScriptComponent | Constructor | Ends";
 }
 
-void ScriptComponent::ComponentTick()
+void ScriptComponent::ComponentTick(float deltaTime)
 {
 
 }

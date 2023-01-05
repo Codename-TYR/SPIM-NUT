@@ -201,16 +201,16 @@ void RenderWindow::init()
 
 void RenderWindow::SetupActors()
 {
-    std::vector<Vertex> test;
-    test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
-    MeshActorTest = new Actor();
-    MeshActorTest->AddComponent(new MeshComponent(MeshGenerator::Octahedron(3)));
-    MeshActorTest->AddComponent(new ScriptComponent("../SPIM-NUT/JS/TestScript_01.js"));
+    //std::vector<Vertex> test;
+    //test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+    //MeshActorTest = new Actor();
+    //MeshActorTest->AddComponent(new MeshComponent(MeshGenerator::Octahedron(3)));
+    //MeshActorTest->AddComponent(new ScriptComponent("../SPIM-NUT/JS/TestScript_01.js"));
 //    MeshActorTest->AddComponent(new MeshComponent(test));
 //    MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent)->init
-    MeshComponent* temp = dynamic_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
-    temp->init(mMatrixUniform0);
-    mObjects.push_back(temp);
+    //MeshComponent* temp = dynamic_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
+    //temp->init(mMatrixUniform0);
+    //mObjects.push_back(temp);
 
 //    MeshActorTest->AddComponent(new ScriptComponent())
 
@@ -635,6 +635,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
 void RenderWindow::keyReleaseEvent(QKeyEvent *event)
 {
     mCurrentInputs[event->key()] = false;
+    std::cout << event->key() << std::endl;
 
 }
 
