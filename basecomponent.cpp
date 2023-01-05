@@ -9,4 +9,5 @@ BaseComponent::BaseComponent()
 void BaseComponent::SetParent(Actor *newParent)
 {
     mParentActor = newParent;
+
 }

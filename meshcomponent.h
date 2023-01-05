@@ -18,8 +18,10 @@ public:
     void ComponentTick(float deltaTime) override {};
     void SetDrawMethod(DrawMethod method);
 private:
-    void InitializeComponentType() override {ComponentType = EComponentType::ECT_MeshComponent;};
     DrawMethod mDrawMethod{Triangles};
+
+    void InitializeComponentType() override {ComponentType = EComponentType::ECT_MeshComponent;}
+
 
 };
 

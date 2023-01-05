@@ -1,10 +1,19 @@
 #include "meshcomponent.h"
+
 #include "actor.h"
+
+#include <QDebug>
+
 
 MeshComponent::MeshComponent(std::vector<Vertex> InVerteces)
 {
+    InitializeComponentType();
     mVertices = InVerteces;
+
     init(0);
+
+//    qDebug() << __FUNCTION__ ;
+
 }
 
 
