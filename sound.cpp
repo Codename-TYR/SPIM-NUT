@@ -5,22 +5,13 @@
 #include <sstream>
 #include <qdebug.h>
 
-Sound::Sound(std::string filePath)
+Sound::Sound()
 {
-    //push inn i map?
-    //mExplosionSound = SoundManager::getInstance()->createSource(navn, this.xyz,
-    //filePath,false,1.0f);
-}
 
-void SoundComponent::Create(std::string filePath, std::string name)
-{
-    Sound* sound = new Sound(filePath);
-    mSounds[name] = sound;
 }
 
 void SoundComponent::followActor(QVector3D actor)
 {
-    //use in tick
     float actorx, actory, actorz;
     actorx = actor.x();
     actory = actor.y();
@@ -44,7 +35,7 @@ bool Sound::exist(std::string name)
     return false;
 }
 
-void Sound::Play(std::string name, std::string filePath)
+void Sound::Play(std::string name, std::string filePath, QVector3D actor)
 {
     if (firstRound)
     {
@@ -58,10 +49,10 @@ void Sound::Play(std::string name, std::string filePath)
       soundManager::getInstance()->clean();
       soundManager::getInstance()->initialize();
     }
+
     soundNames.push_back(name);
     SoundComponent* sound{nullptr};
-    sound = soundManager::getInstance()->createSource(name, QVector3D(10.0f,0.0f,0.0f),
-                                                                 filePath, false,1.0f);
+    sound = soundManager::getInstance()->createSource(name, actor, filePath, false,1.0f);
     sound->SoundComponent::Play(filePath);
 }
 
@@ -337,15 +328,6 @@ void soundManager::updateListener(QVector3D position, QVector3D velocity, QVecto
     alListenerfv(AL_ORIENTATION, orientationVector);
 }
 
-//void soundManager::followActor(QVector3D actorpos)
-//{
-//    float actorposition[3];
-//    actorposition[0] = actorpos.x();
-//    actorposition[1] = actorpos.y();
-//    actorposition[2] = actorpos.z();
-//    alSourcefv(mSource, AL_POSITION, actorposition);
-//}
-
 bool WavReader::wavLoader(std::string filePath, wave *wave_ptr)
 {
     std::cout << "Loading: " << filePath << " from disk" << std::endl;
@@ -419,3 +401,4 @@ bool WavReader::checkForError(std::string errorMessage)
     std::cout << errorMessage;
     return false;
 }
+

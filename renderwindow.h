@@ -151,7 +151,6 @@ private:
     class Sound* s{nullptr};
     class Sound* d{nullptr};
     class SoundComponent* comp{nullptr};
-    Triangle* test{nullptr};
 };
 
 #endif // RENDERWINDOW_H

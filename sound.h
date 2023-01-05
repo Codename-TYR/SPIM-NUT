@@ -18,8 +18,9 @@ class WavReader;
 class Sound
 {
 public:
-    Sound(std::string filePath);
-    void Play(std::string name, std::string filePath);
+    Sound();
+    void Play(std::string name, std::string filePath, QVector3D actor = {10.f,0.f,0.f});
+    void PlayMusic(std::string name, std::string filePath, QVector3D actor = {10.f,0.f,0.f});
     void Pause();
     void Stop();
     bool exist(std::string name);
@@ -35,8 +36,6 @@ class SoundComponent
 public:
     SoundComponent(std::string name, bool loop = false, float gain = 1.0f);
     ~SoundComponent();
-
-//    void ComponentTick(float deltaTime);
 
     void Play(std::string sound); //play sound
     void Pause(std::string sound); //pause sound
@@ -80,7 +79,7 @@ public:
             position = QVector3D(0.f,0.f,0.f);
             velocity = QVector3D(0.f,0.f,0.f);
             direction = QVector3D(0.f,0.f,1.f);
-            up = QVector3D(0.f,1.f,0.f); //finn ut hva som er opp
+            up = QVector3D(0.f,1.f,0.f);
         }
     };
 
@@ -95,7 +94,6 @@ public:
     void clean();
 
     void updateListener(QVector3D position, QVector3D velocity, QVector3D direction, QVector3D up);
-    void followActor(QVector3D actorpos);
     SoundComponent* createSource(std::string name, QVector3D position, std::string filePath = "", bool loop = false, float gain = 1.0);
 private:
     soundManager();

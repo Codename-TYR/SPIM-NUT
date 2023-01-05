@@ -156,18 +156,17 @@ void RenderWindow::init()
 
     mLight = new Light();
     mLight->init(2);
-    //mLight->setOrbitPoint({250, 250, 400});
+    mLight->setOrbitPoint({250, 250, 400});
 
-//    test = new Triangle();
-    s = new Sound("ab");
-    d = new Sound("bc");
+    s = new Sound();
+    d = new Sound();
     comp = new SoundComponent("component");
 
     glBindVertexArray(0);
 
     Setup();
 
-    //mLight->orbit(0.1f);
+    mLight->orbit(0.1f);
 
 }
 
@@ -421,11 +420,11 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     }
     if (event->key() == Qt::Key_R)
     {
-        s->Play("Explosion", "../SPIM-NUT/Assets/explosion.wav");
+        s->Play("Explosion", "../SPIM-NUT/Assets/explosion.wav", comp->getPos());
     }
     if (event->key() == Qt::Key_F)
     {
-        d->Play("Caravan", "../SPIM-NUT/Assets/Caravan_mono.wav");
+        d->Play("Caravan", "../SPIM-NUT/Assets/Caravan_mono.wav", comp->getPos());
     }
 }
 
@@ -465,8 +464,7 @@ void RenderWindow::Tick(float deltaTime)
     }
     soundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
 
-//    QVector3D lightpos = mLight->getPosition();
-//    comp->followActor(lightpos);
+    //comp->followActor(mLight->getPosition());
 
     QVector3D AttemptedMovement;
     if (mCurrentInputs[Qt::Key_W]) {
@@ -498,12 +496,16 @@ void RenderWindow::Tick(float deltaTime)
     }
     if (mCurrentInputs[Qt::Key_J])
     {
+        comp->setPosition({10,-10,0});
+//        mLight->move(-10,10,0);
+    }
+    if (mCurrentInputs[Qt::Key_K])
+    {
         comp->setPosition({-10,10,0});
-        //mLight->move(1.f,-1.f,0.f);
-        qDebug() << comp->getPos();
+//        mLight->move(10,-10,0);
     }
 
-    //mLight->orbit(deltaTime * 3);
+    mLight->orbit(deltaTime * 3);
 
     float moveSpeed = deltaTime * 50;
     if (mCurrentInputs[Qt::Key_Shift]) moveSpeed *= 2;
