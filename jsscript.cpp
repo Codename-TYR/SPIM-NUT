@@ -14,6 +14,7 @@
 JSScript::JSScript(ScriptComponent* InComponent)
     :mOwningComponent{InComponent}/*, mEngine{InEngine}*/
 {
+
     InputMap = RenderWindow::GetCurrentInputsMap();
     qDebug() << __FUNCTION__ " | Constructor Begins";
 
@@ -75,6 +76,7 @@ JSScript::JSScript(ScriptComponent* InComponent)
 
 
     qDebug() << __FUNCTION__ " | Constructor Ends";
+
 }
 
 void JSScript::SignalVectorSetup()
@@ -92,6 +94,7 @@ void JSScript::SignalVectorSetup()
 
 void JSScript::sendSignal()
 {
+
     qDebug() << __FUNCTION__ " | Begins";
 
 //    std::vector<std::function<void(JSScript*)>> functionVector;
@@ -123,6 +126,7 @@ void JSScript::sendSignal_2()
 void JSScript::sendSignal_3()
 {
     emit signal_3();
+
 }
 void JSScript::sendSignalTick_1()
 {
@@ -149,6 +153,7 @@ void JSScript::CallJump()
 }
 void JSScript::CallWInput()
 {
+
     qDebug() << __FUNCTION__ " | Begins";
 
 }
@@ -160,6 +165,7 @@ void JSScript::CallAInput()
 void JSScript::CallSInput()
 {
     qDebug() << __FUNCTION__ " | Begins";
+
 
 }
 void JSScript::CallDInput()

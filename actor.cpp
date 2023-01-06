@@ -24,6 +24,12 @@ BaseComponent* Actor::GetComponentOfType(EComponentType InComponentType)
     return nullptr;
 }
 
+QVector3D Actor::GetPosition()
+{
+    auto pos = mPosRotScale.column(3);
+    return QVector3D{pos.x(), pos.y(), pos.z()};
+}
+
 void Actor::Tick(float deltaTime)
 {
     foreach (BaseComponent* Component, mComponents)

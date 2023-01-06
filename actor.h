@@ -36,6 +36,7 @@ public:
     void Move(QVector3D offset);
 
     void Rotate(float degrees, QVector3D axis);
+    QVector3D GetPosition();
 };
 
 #endif // ACTOR_H

@@ -187,6 +187,10 @@ void RenderWindow::init()
     mLight->init(2);
     mLight->setOrbitPoint({250, 250, 400});
 
+    s = new Sound();
+    d = new Sound();
+    comp = new SoundComponent("component");
+
     glBindVertexArray(0);
 
     Setup();
@@ -201,16 +205,16 @@ void RenderWindow::init()
 
 void RenderWindow::SetupActors()
 {
-    std::vector<Vertex> test;
-    test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
-    MeshActorTest = new Actor();
-    MeshActorTest->AddComponent(new MeshComponent(MeshGenerator::Octahedron(3)));
-    MeshActorTest->AddComponent(new ScriptComponent("../SPIM-NUT/JS/TestScript_01.js"));
+    //std::vector<Vertex> test;
+    //test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+    //MeshActorTest = new Actor();
+    //MeshActorTest->AddComponent(new MeshComponent(MeshGenerator::Octahedron(3)));
+    //MeshActorTest->AddComponent(new ScriptComponent("../SPIM-NUT/JS/TestScript_01.js"));
 //    MeshActorTest->AddComponent(new MeshComponent(test));
 //    MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent)->init
-    MeshComponent* temp = dynamic_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
-    temp->init(mMatrixUniform0);
-    mObjects.push_back(temp);
+    //MeshComponent* temp = dynamic_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
+    //temp->init(mMatrixUniform0);
+    //mObjects.push_back(temp);
 
 //    MeshActorTest->AddComponent(new ScriptComponent())
 
@@ -625,16 +629,20 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     }
     if (event->key() == Qt::Key_R)
     {
-        Sound* s = new Sound("ab");
-        s->Play("Explosion", "../SPIM-NUT/Assets/explosion.wav");
-        Sound* d = new Sound("ab");
-        d->Play("Explo", "../SPIM-NUT/Assets/Caravan_mono.wav");
+
+        s->Play("Explosion", "../SPIM-NUT/Assets/explosion.wav", comp->getPos());
+    }
+    if (event->key() == Qt::Key_F)
+    {
+        d->Play("Caravan", "../SPIM-NUT/Assets/Caravan_mono.wav", comp->getPos());
+
     }
 }
 
 void RenderWindow::keyReleaseEvent(QKeyEvent *event)
 {
     mCurrentInputs[event->key()] = false;
+    std::cout << event->key() << std::endl;
 
 }
 
@@ -668,6 +676,8 @@ void RenderWindow::Tick(float deltaTime)
         //p->Tick(deltaTime);
 
     }
+    soundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
+    comp->followActor(mBallTest->GetPosition());
 
     if (mCurrentInputs[Qt::Key_Up]) {
         mWallTest->Rotate(10 * deltaTime, {1,0,0});
@@ -687,7 +697,6 @@ void RenderWindow::Tick(float deltaTime)
     mActorTest->Tick(deltaTime);
     mWallTest->Tick(deltaTime);
     mBallTest->Tick(deltaTime);
-
 
 
     QVector3D AttemptedMovement;
@@ -716,6 +725,16 @@ void RenderWindow::Tick(float deltaTime)
     if (mCurrentInputs[Qt::Key_Q]) {
         QVector3D dir = {0,0,1};
         AttemptedMovement += dir;
+    }
+    if (mCurrentInputs[Qt::Key_J])
+    {
+        comp->setPosition({10,-10,0});
+//        mLight->move(-10,10,0);
+    }
+    if (mCurrentInputs[Qt::Key_K])
+    {
+        comp->setPosition({-10,10,0});
+//        mLight->move(10,-10,0);
     }
 
     mLight->orbit(deltaTime * 3);

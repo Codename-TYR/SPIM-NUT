@@ -17,6 +17,7 @@
 #include "triangle.h"
 #include "xyz.h"
 #include "colliderbase.h"
+#include "sound.h"
 
 
 
@@ -150,6 +151,10 @@ private:
     Camera* mActiveCamera{nullptr};
     class Light *mLight{nullptr};
 
+    class Sound* s{nullptr};
+    class Sound* d{nullptr};
+    class SoundComponent* comp{nullptr};
+
 
     //~~ JS Section
 private:
@@ -176,6 +181,7 @@ private:
 
 
     void AssembleBoard(std::string fileName);
+
 };
 
 #endif // RENDERWINDOW_H

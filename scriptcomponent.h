@@ -17,6 +17,7 @@ public:
     void DrawComponent() override {};
 
 
+
 private:
     void InitializeComponentType() override {ComponentType = EComponentType::ECT_ScriptComponent;}
 
