@@ -18,7 +18,6 @@ SOURCES += main.cpp \
     ballcomponent.cpp \
     basecomponent.cpp \
     camera.cpp \
-    colliderbase.cpp \
     collisioncomponent.cpp \
     jsscript.cpp \
     light.cpp \
@@ -26,19 +25,14 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     meshcomponent.cpp \
     meshgenerator.cpp \
-    nutobject.cpp \
     octahedronball.cpp \
-    planecollider.cpp \
     renderwindow.cpp \
     scriptcomponent.cpp \
-    scriptingcomponent.cpp \
     scriptreader.cpp \
     shader.cpp \
     sound.cpp \
-    spherecollider.cpp \
     texture.cpp \
     triangle.cpp \
-    trianglecollider.cpp \
     trianglesurface.cpp \
     vertex.cpp \
     visualobject.cpp \
@@ -49,7 +43,6 @@ HEADERS += \
     actor.h \
     ballcomponent.h \
     basecomponent.h \
-    colliderbase.h \
     collisioncomponent.h \
     jsscript.h \
     light.h \
@@ -58,20 +51,15 @@ HEADERS += \
     mainwindow.h \
     meshcomponent.h \
     meshgenerator.h \
-    nutobject.h \
     objloader.h \
     octahedronball.h \
-    planecollider.h \
     renderwindow.h \
     scriptcomponent.h \
-    scriptingcomponent.h \
     scriptreader.h \
     shader.h \
     sound.h \
-    spherecollider.h \
     texture.h \
     triangle.h \
-    trianglecollider.h \
     trianglesurface.h \
     vertex.h \
     visualobject.h \

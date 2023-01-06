@@ -19,7 +19,7 @@ class Sound
 {
 public:
     Sound();
-    void Play(std::string name, std::string filePath, QVector3D actor = {10.f,0.f,0.f});
+    void Play(std::string name, std::string filePath, QVector3D actor = {10.f,0.f,0.f}, float gain = 1.f);
     void PlayMusic(std::string name, std::string filePath, QVector3D actor = {10.f,0.f,0.f});
     void Pause();
     void Stop();

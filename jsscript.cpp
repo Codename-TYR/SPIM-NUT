@@ -6,6 +6,8 @@
 #include "qjsvalue.h"
 #include "renderwindow.h"
 #include "scriptcomponent.h"
+#include "ballcomponent.h"
+#include "actor.h"
 //#include <function>
 
 
@@ -16,7 +18,7 @@ JSScript::JSScript(ScriptComponent* InComponent)
 {
 
     InputMap = RenderWindow::GetCurrentInputsMap();
-    qDebug() << __FUNCTION__ " | Constructor Begins";
+    qDebug() << __FUNCTION__ << " | Constructor Begins";
 
 //    SignalVectorSetup();
 
@@ -25,7 +27,7 @@ JSScript::JSScript(ScriptComponent* InComponent)
 
     if (!(JSScriptFile).open(QIODevice::ReadOnly))
     {
-        qDebug() << "Error | " __FUNCTION__ " | Failed to read file:" << mOwningComponent->GetJSFilePath();
+        qDebug() << "Error | " << __FUNCTION__ << " | Failed to read file:" << mOwningComponent->GetJSFilePath();
     }
     else
     {
@@ -75,7 +77,7 @@ JSScript::JSScript(ScriptComponent* InComponent)
     cFunc.call();
 
 
-    qDebug() << __FUNCTION__ " | Constructor Ends";
+    qDebug() << __FUNCTION__ << " | Constructor Ends";
 
 }
 
@@ -95,7 +97,7 @@ void JSScript::SignalVectorSetup()
 void JSScript::sendSignal()
 {
 
-    qDebug() << __FUNCTION__ " | Begins";
+    qDebug() << __FUNCTION__ << " | Begins";
 
 //    std::vector<std::function<void(JSScript*)>> functionVector;
 
@@ -111,7 +113,7 @@ void JSScript::sendSignal()
     emit signal_2();
     emit signal_3();
 
-    qDebug() << __FUNCTION__ " | Ends";
+    qDebug() << __FUNCTION__ << " | Ends";
     //    emit signalTwo();
 }
 
@@ -145,33 +147,27 @@ void JSScript::sendSignalTick_4()
     emit signal_tick_4();
 
 }
-void JSScript::CallJump()
+void JSScript::CallJump(float force)
 {
-    qDebug() << __FUNCTION__ " | Begins";
-    // Owner->CallJumpActor();
-//    qDebug() << __FUNCTION__ " | Ends";
+    BallComponent::GetPointerToBall()->Jump(force);
 }
-void JSScript::CallWInput()
-{
 
-    qDebug() << __FUNCTION__ " | Begins";
+void JSScript::CallWInput(float speed)
+{
+    RenderWindow::GetPointerToGround()->Rotate(speed, {1,0,0});
 
 }
-void JSScript::CallAInput()
+void JSScript::CallAInput(float speed)
 {
-    qDebug() << __FUNCTION__ " | Begins";
-
+    RenderWindow::GetPointerToGround()->Rotate(speed, {0,1,0});
 }
-void JSScript::CallSInput()
+void JSScript::CallSInput(float speed)
 {
-    qDebug() << __FUNCTION__ " | Begins";
-
-
+    RenderWindow::GetPointerToGround()->Rotate(speed, {-1,0,0});
 }
-void JSScript::CallDInput()
+void JSScript::CallDInput(float speed)
 {
-    qDebug() << __FUNCTION__ " | Begins";
-
+    RenderWindow::GetPointerToGround()->Rotate(speed, {0,-1,0});
 }
 
 //void JSScript::sendSignalTick()

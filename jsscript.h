@@ -53,11 +53,11 @@ signals:
 public slots:
 //  en public slot kan kalles fra javascript, uten Q_INVOKABLE
 
-    void CallJump();
-    void CallWInput();
-    void CallAInput();
-    void CallSInput();
-    void CallDInput();
+    void CallJump(float force);
+    void CallWInput(float speed);
+    void CallAInput(float speed);
+    void CallSInput(float speed);
+    void CallDInput(float speed);
 
 
 //    void scriptFunction(float in);

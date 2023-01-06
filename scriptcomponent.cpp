@@ -48,7 +48,7 @@ ScriptComponent::ScriptComponent(QString fileName)
     JSScriptObject->sendSignal();
 
 
-    qDebug() << __FUNCTION__ " | Constructor | Ends";
+    qDebug() << __FUNCTION__ << " | Constructor | Ends";
 
 }
 

@@ -16,7 +16,6 @@
 #include "texture.h"
 #include "triangle.h"
 #include "xyz.h"
-#include "colliderbase.h"
 #include "sound.h"
 
 
@@ -133,14 +132,15 @@ protected:
 
 public:
     static std::unordered_map<int, bool> GetCurrentInputsMap() {return mCurrentInputs;}
+    static class Actor* GetPointerToGround();
 
 protected:
     void Tick(float deltaTime);
+    static inline Actor* groundptr;
 
 private:
     QPoint mMouseHeldPosition;
     std::vector<VisualObject*> mObjects;
-    std::vector<ColliderBase*> mCollisionObjects;
 
     Triangle* triangle{nullptr};
 

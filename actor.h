@@ -16,6 +16,7 @@ private:
 
     QMatrix4x4 mPosRotScale;
 
+
 public:
     std::vector<class BaseComponent*> mComponents;
 

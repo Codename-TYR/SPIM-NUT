@@ -35,7 +35,7 @@ bool Sound::exist(std::string name)
     return false;
 }
 
-void Sound::Play(std::string name, std::string filePath, QVector3D actor)
+void Sound::Play(std::string name, std::string filePath, QVector3D actor, float gain)
 {
     if (firstRound)
     {
@@ -52,7 +52,7 @@ void Sound::Play(std::string name, std::string filePath, QVector3D actor)
 
     soundNames.push_back(name);
     SoundComponent* sound{nullptr};
-    sound = soundManager::getInstance()->createSource(name, actor, filePath, false,1.0f);
+    sound = soundManager::getInstance()->createSource(name, actor, filePath, false,gain);
     sound->SoundComponent::Play(filePath);
 }
 

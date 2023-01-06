@@ -30,7 +30,7 @@ const SInput = '83'
 const DInput = '68'
 const inputMap = {}
 
-let JumpcooldownTracker = 2;
+let JumpcooldownTracker = 0;
 let Jumpcooldown = 2;
 
 function Tick(inputs, deltaTime)
@@ -45,30 +45,30 @@ function Tick(inputs, deltaTime)
 
     if (inputMap[SpaceInput] == true)
     {
-        if (JumpcooldownTracker <= 0)
+        if (JumpcooldownTracker >= Jumpcooldown)
         {
-            Owner.CallJump();
-            JumpcooldownTracker = Jumpcooldown;
+            Owner.CallJump(5);
+            JumpcooldownTracker = 0;
         }
     }
     if (inputMap[WInput] == true)
     {
-        Owner.CallWInput();
+        Owner.CallWInput(5 * deltaTime);
     }
     if (inputMap[AInput] == true)
     {
-        Owner.CallAInput();
+        Owner.CallAInput(5 * deltaTime);
     }
     if (inputMap[SInput] == true)
     {
-        Owner.CallSInput();
+        Owner.CallSInput(5 * deltaTime);
     }
     if (inputMap[DInput] == true)
     {
-        Owner.CallDInput();
+        Owner.CallDInput(5 * deltaTime);
     }
 
-    JumpcooldownTracker -= deltaTime;
+    JumpcooldownTracker += deltaTime;
 
 
 /*    "68,0 16777235,0 16777237,0 65,0 1,0 16777234,0 81,0 83,0 16777236,0 87,0 69,0 16777248,0 2,0 " */

@@ -8,6 +8,7 @@ BallComponent::BallComponent()
     InitializeComponentType();
     SetAsSphereCollider(0.25);
     s = new Sound();
+    activeBall = this;
 }
 
 void BallComponent::OnCollideWithWall(float force) {
@@ -16,9 +17,15 @@ void BallComponent::OnCollideWithWall(float force) {
     mTimeSincePlayedSound = 0;
     force = std::min(force, 1.f);
 
-    s->Play("Laser", "../SPIM-NUT/Assets/laser.wav", GetPosition());
+    s->Play("Laser", "../SPIM-NUT/Assets/laser.wav", GetPosition(), force);
 
     //spill av lyd her, force kan være volumet kanskje?
+}
+
+void BallComponent::Jump(float strength)
+{
+    mVelocity.setZ(0);
+    mVelocity += (mLastCollision.normalized() * -1) * strength;
 }
 
 void BallComponent::ComponentTick(float deltaTime)
@@ -29,6 +36,7 @@ void BallComponent::ComponentTick(float deltaTime)
     for (unsigned int i = 0; i < mAllWalls->size(); i++) {
             CollisionEvent collisionEvent = CollisionComponent::IsSphereCollidingWithBox(this, mAllWalls->at(i));
             if (collisionEvent.isCollision) {
+                mLastCollision = collisionEvent.direction;
                 QVector3D oldVelocity = mVelocity;
                 mVelocity = mVelocity - 2 * (QVector3D::dotProduct(mVelocity, collisionEvent.direction)) * collisionEvent.direction * 0.1;
                 //mVelocity = mVelocity + (collisionEvent.direction * collisionEvent.distance) / (deltaTime) ;
@@ -70,6 +78,11 @@ void BallComponent::InitializeComponentType()
 QVector3D BallComponent::GetVelocity()
 {
     return mVelocity;
+}
+
+BallComponent *BallComponent::GetPointerToBall()
+{
+    return activeBall;
 }
 
 void BallComponent::AddForce(QVector3D force)

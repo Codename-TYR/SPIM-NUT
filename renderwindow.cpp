@@ -23,8 +23,6 @@
 #include "texture.h"
 #include "light.h"
 #include "sound.h"
-#include "planecollider.h"
-#include "spherecollider.h"
 
 #include "meshgenerator.h"
 
@@ -32,7 +30,7 @@
 
 #include <QJSEngine>                //The script engine itself!
 #include <QFile>                    //Reading from file
-#include "scriptingcomponent.h"     // Scripting Component
+
 
 
 //~~
@@ -52,6 +50,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
 
 {
+
     mActiveCamera = &mCamera2;
     //This is sent to QWindow:
     setSurfaceType(QWindow::OpenGLSurface);
@@ -205,12 +204,12 @@ void RenderWindow::init()
 
 void RenderWindow::SetupActors()
 {
-    //std::vector<Vertex> test;
-    //test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
-    //MeshActorTest = new Actor();
+    std::vector<Vertex> test;
+    test.push_back(Vertex(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+    MeshActorTest = new Actor();
     //MeshActorTest->AddComponent(new MeshComponent(MeshGenerator::Octahedron(3)));
-    //MeshActorTest->AddComponent(new ScriptComponent("../SPIM-NUT/JS/TestScript_01.js"));
-//    MeshActorTest->AddComponent(new MeshComponent(test));
+    MeshActorTest->AddComponent(new ScriptComponent("../SPIM-NUT/JS/TestScript_01.js"));
+    MeshActorTest->AddComponent(new MeshComponent(test));
 //    MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent)->init
     //MeshComponent* temp = dynamic_cast<MeshComponent*>(MeshActorTest->GetComponentOfType(EComponentType::ECT_MeshComponent));
     //temp->init(mMatrixUniform0);
@@ -291,10 +290,6 @@ void RenderWindow::render()
 
     for (auto it=mObjects.begin(); it!= mObjects.end(); it++) {
         glUniformMatrix4fv(mMatrixUniform0, 1, GL_FALSE, (*it)->mMatrix.constData());
-        (*it)->draw();
-    }
-
-    for (auto it=mCollisionObjects.begin(); it!= mCollisionObjects.end(); it++) {
         (*it)->draw();
     }
 
@@ -380,7 +375,7 @@ void RenderWindow::AssembleBoard(std::string fileName)
         }
 
         mWallTest = new Actor;
-
+        groundptr = mWallTest;
         int rows = lines[0].size();
         int colums = lines.size();
 
@@ -642,8 +637,6 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
 void RenderWindow::keyReleaseEvent(QKeyEvent *event)
 {
     mCurrentInputs[event->key()] = false;
-    std::cout << event->key() << std::endl;
-
 }
 
 void RenderWindow::wheelEvent(QWheelEvent *event)
@@ -651,9 +644,14 @@ void RenderWindow::wheelEvent(QWheelEvent *event)
     mActiveCamera->Zoom(event->angleDelta().y());
 }
 
+Actor *RenderWindow::GetPointerToGround()
+{
+    return groundptr;
+}
+
 void RenderWindow::Setup() {
 
-    mCamera2.SetPosition({20,20,20});
+    mCamera2.SetPosition({0,10,20});
     mCamera2.lookAt({0,0,0});
 
 }
@@ -679,18 +677,7 @@ void RenderWindow::Tick(float deltaTime)
     soundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
     comp->followActor(mBallTest->GetPosition());
 
-    if (mCurrentInputs[Qt::Key_Up]) {
-        mWallTest->Rotate(10 * deltaTime, {1,0,0});
-    }
-    if (mCurrentInputs[Qt::Key_Down]) {
-        mWallTest->Rotate(10 * deltaTime, {-1,0,0});
-    }
-    if (mCurrentInputs[Qt::Key_Left]) {
-        mWallTest->Rotate(10 * deltaTime, {0,1,0});
-    }
-    if (mCurrentInputs[Qt::Key_Right]) {
-        mWallTest->Rotate(10 * deltaTime, {0,-1,0});
-    }
+
 
 
     //SoundManager::getInstance()->updateListener(mActiveCamera->GetPosition(), {0,0,0}, mActiveCamera->Forward() * -1, {0,0,1});
@@ -700,29 +687,29 @@ void RenderWindow::Tick(float deltaTime)
 
 
     QVector3D AttemptedMovement;
-    if (mCurrentInputs[Qt::Key_W]) {
+    if (mCurrentInputs[Qt::Key_Up]) {
         auto dir = mActiveCamera->Forward();
         AttemptedMovement += dir;
     }
-    if (mCurrentInputs[Qt::Key_S]) {
+    if (mCurrentInputs[Qt::Key_Down]) {
         auto dir = mActiveCamera->Forward();
         dir *= -1;
         AttemptedMovement += dir;
     }
-    if (mCurrentInputs[Qt::Key_A]) {
+    if (mCurrentInputs[Qt::Key_Left]) {
         auto dir = mActiveCamera->Right();
         dir *= -1;
         AttemptedMovement += dir;
     }
-    if (mCurrentInputs[Qt::Key_D]) {
+    if (mCurrentInputs[Qt::Key_Right]) {
         auto dir = mActiveCamera->Right();
         AttemptedMovement += dir;
     }
-    if (mCurrentInputs[Qt::Key_E]) {
+    if (mCurrentInputs[Qt::Key_PageDown]) {
         QVector3D dir = {0,0,-1};
         AttemptedMovement += dir;
     }
-    if (mCurrentInputs[Qt::Key_Q]) {
+    if (mCurrentInputs[Qt::Key_PageUp]) {
         QVector3D dir = {0,0,1};
         AttemptedMovement += dir;
     }
