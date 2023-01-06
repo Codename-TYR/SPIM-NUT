@@ -1,7 +1,9 @@
 #ifndef JSSCRIPT_H
 #define JSSCRIPT_H
 
+#include "qjsengine.h"
 #include <QObject>
+
 
 class JSScript : public QObject
 {
@@ -9,20 +11,58 @@ class JSScript : public QObject
 
 //    Q_PROPERTY()
 
-
 public:
     //Constructor
-    JSScript();
+    JSScript(class ScriptComponent* InComponent);
 
+//    ScriptComponent
+private:
+    std::unordered_map<int, bool> InputMap;
 
+    void SignalVectorSetup();
+
+    class ScriptComponent* mOwningComponent {nullptr};
+
+    QJSEngine mEngine;
+
+    std::vector<std::function<void(JSScript*)>> SignalVector;
+    std::vector<std::function<void(JSScript*)>> SignalTickVector;
+public:
     void sendSignal();
+
+    void sendSignal_1();
+    void sendSignal_2();
+    void sendSignal_3();
+
+    void sendSignalTick_1();
+    void sendSignalTick_2();
+    void sendSignalTick_3();
+    void sendSignalTick_4();
 
 signals:
     void signal_1();
+    void signal_2();
+    void signal_3();
+
+    void signal_tick_1();
+    void signal_tick_2();
+    void signal_tick_3();
+    void signal_tick_4();
+
 
 public slots:
 //  en public slot kan kalles fra javascript, uten Q_INVOKABLE
-    void scriptFunction(float in);
+
+    void CallJump();
+    void CallWInput();
+    void CallAInput();
+    void CallSInput();
+    void CallDInput();
+
+
+//    void scriptFunction(float in);
+//    void scriptFunction(float in);
+//    void scriptFunction( std::map<int, bool> inMap);
 
 };
 

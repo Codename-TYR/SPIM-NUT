@@ -28,6 +28,13 @@ private:
 
     class JSScript* JSScriptObject {nullptr};
 
+    std::unordered_map<int, bool> CurrentInputsMap;
+
+
+public:
+    QString GetJSFilePath() {return mJSFilePath;}
+
+
 };
 
 #endif // SCRIPTCOMPONENT_H

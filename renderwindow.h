@@ -129,7 +129,12 @@ protected:
     void keyReleaseEvent(QKeyEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
 
-    std::unordered_map<int, bool> mCurrentInputs;
+    static inline std::unordered_map<int, bool> mCurrentInputs {};
+
+public:
+    static std::unordered_map<int, bool> GetCurrentInputsMap() {return mCurrentInputs;}
+
+protected:
     void Tick(float deltaTime);
 
 private:
