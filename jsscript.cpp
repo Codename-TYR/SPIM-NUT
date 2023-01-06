@@ -36,40 +36,42 @@ JSScript::JSScript(ScriptComponent* InComponent)
         JSScriptFile.close();
 
         mEngine.evaluate(JSContents, mOwningComponent->GetJSFilePath());
+
+
+        QJSValue objectTest = mEngine.newQObject(this);
+        mEngine.globalObject().setProperty("Owner", objectTest);
     }
 
 
 
     //Make a C++ variable to the function
-    QJSValue func = mEngine.evaluate("takeMap");
+//    QJSValue func = mEngine.evaluate("takeMap");
 //    and the arguments
-    QJSValueList args;
-//    Read in arguments: 3 is the first (a) 8.9 is the last (b)
-    std::map<int, bool> inMap;
-    inMap[0] = true;
-    inMap[1] = false;
-    inMap[2] = true;
-    inMap[3] = false;
+//    QJSValueList args;
+////    Read in arguments: 3 is the first (a) 8.9 is the last (b)
+//    std::map<int, bool> inMap;
+//    inMap[0] = true;
+//    inMap[1] = false;
+//    inMap[2] = true;
+//    inMap[3] = false;
 
-    std::string tempString;
+//    std::string tempString;
 
-    for (auto i = inMap.begin(); i != inMap.end(); i++)
-    {
-        int testKey = i->first;
-        bool test = i->second;
-        tempString.append(std::to_string (testKey));
-        tempString.append(std::to_string (test));
-        tempString.append(" ");
-    }
+//    for (auto i = inMap.begin(); i != inMap.end(); i++)
+//    {
+//        int testKey = i->first;
+//        bool test = i->second;
+//        tempString.append(std::to_string (testKey));
+//        tempString.append(std::to_string (test));
+//        tempString.append(" ");
+//    }
 
-    args << tempString.c_str();
-//    Call the function and hold the return value
-    QJSValue result = func.call(args);
-//    Check the return value (toNumber() makes a double of it)
-//    float test = result.to();
-//    float test = result.toNumber();
-    qDebug() << result.toString() << "\n";
-//    qDebug() << result.toNumber() << "\n";
+//    args << tempString.c_str();
+//    QJSValue result = func.call(args);
+//    qDebug() << result.toString() << "\n";
+
+    QJSValue cFunc = mEngine.evaluate("connectToSlot");
+    cFunc.call();
 
 
     qDebug() << __FUNCTION__ " | Constructor Ends";
@@ -110,11 +112,60 @@ void JSScript::sendSignal()
     //    emit signalTwo();
 }
 
+void JSScript::sendSignal_1()
+{
+    emit signal_1();
+}
+void JSScript::sendSignal_2()
+{
+    emit signal_2();
+}
+void JSScript::sendSignal_3()
+{
+    emit signal_3();
+}
+void JSScript::sendSignalTick_1()
+{
+    emit signal_tick_1();
+}
+void JSScript::sendSignalTick_2()
+{
+    emit signal_tick_2();
+}
+void JSScript::sendSignalTick_3()
+{
+    emit signal_tick_3();
+}
+void JSScript::sendSignalTick_4()
+{
+    emit signal_tick_4();
+
+}
 void JSScript::CallJump()
 {
     qDebug() << __FUNCTION__ " | Begins";
     // Owner->CallJumpActor();
-    qDebug() << __FUNCTION__ " | Ends";
+//    qDebug() << __FUNCTION__ " | Ends";
+}
+void JSScript::CallWInput()
+{
+    qDebug() << __FUNCTION__ " | Begins";
+
+}
+void JSScript::CallAInput()
+{
+    qDebug() << __FUNCTION__ " | Begins";
+
+}
+void JSScript::CallSInput()
+{
+    qDebug() << __FUNCTION__ " | Begins";
+
+}
+void JSScript::CallDInput()
+{
+    qDebug() << __FUNCTION__ " | Begins";
+
 }
 
 //void JSScript::sendSignalTick()

@@ -37,6 +37,7 @@ public:
     void sendSignalTick_1();
     void sendSignalTick_2();
     void sendSignalTick_3();
+    void sendSignalTick_4();
 
 signals:
     void signal_1();
@@ -46,12 +47,18 @@ signals:
     void signal_tick_1();
     void signal_tick_2();
     void signal_tick_3();
+    void signal_tick_4();
 
 
 public slots:
 //  en public slot kan kalles fra javascript, uten Q_INVOKABLE
 
     void CallJump();
+    void CallWInput();
+    void CallAInput();
+    void CallSInput();
+    void CallDInput();
+
 
 //    void scriptFunction(float in);
 //    void scriptFunction(float in);

@@ -47,24 +47,17 @@ ScriptComponent::ScriptComponent(QString fileName)
 
     JSScriptObject->sendSignal();
 
-
-
-
-
-
-
-
     qDebug() << __FUNCTION__ " | Constructor | Ends";
 }
 
 void ScriptComponent::ComponentTick(float deltaTime)
 {
-    qDebug() << __FUNCTION__;
+//    qDebug() << __FUNCTION__;
 
     CurrentInputsMap = RenderWindow::GetCurrentInputsMap();
 
     //Make a C++ variable to the function
-    QJSValue func = mEngine.evaluate("takeMap");
+    QJSValue func = mEngine.evaluate("Tick");
 //    and the arguments
     QJSValueList args;
 //    Read in arguments: 3 is the first (a) 8.9 is the last (b)
@@ -86,14 +79,21 @@ void ScriptComponent::ComponentTick(float deltaTime)
         tempString.append(" ");
     }
 
-    args << tempString.c_str();
+    args << tempString.c_str() << deltaTime;
 //    Call the function and hold the return value
     QJSValue result = func.call(args);
+//    func.call(args);
 //    Check the return value (toNumber() makes a double of it)
 //    float test = result.to();
 //    float test = result.toNumber();
-    qDebug() << result.toString() << "\n";
+//    qDebug() << result.toString() << "\n";
 //    qDebug() << result.toNumber() << "\n";
+
+//    JSScriptObject->sendSignal_1();
+//    JSScriptObject->sendSignalTick_1();
+//    JSScriptObject->sendSignalTick_2();
+//    JSScriptObject->sendSignalTick_3();
+//    JSScriptObject->sendSignalTick_4();
 
 
 
